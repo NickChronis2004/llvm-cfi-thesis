@@ -9,11 +9,11 @@
 **Ημερομηνία:** 11/9/2026
 
 **Symptom:**
-
+```
 c++: fatal error: Killed signal terminated program cc1plus
 compilation terminated.
 ninja: build stopped: subcommand failed.
-
+```
 Εμφανίστηκε στο ~43% του build (2045/4724 targets), κατά το compile του `AArch64Subtarget.cpp`.
 
 **Root Cause:**
@@ -37,13 +37,12 @@ ninja -j6 opt clang
 **Ημερομηνία:** 11/9/2026
 
 **Symptom:**
-
+```
 ld.lld: error: lib/libLLVMDebugInfoPDB.a(RawError.cpp.o):(.debug_loclists+0x23f):
 relocation R_X86_64_32 out of range: 4407004735 is not in [0, 4294967295]
-
-referenced by RawError.cpp; consider recompiling with -fdebug-types-section
-to reduce size of debug sections
-
+>>> referenced by RawError.cpp; consider recompiling with -fdebug-types-section
+    to reduce size of debug sections
+```
 Πολλαπλά τέτοια errors σε διαφορετικά `.a` αρχεία (`libLLVMDebugInfoPDB`, `libLLVMTextAPI`, `libLLVMObject`, `libLLVMFrontendOpenMP`), όλα στο `.debug_loclists` section, στο **link** στάδιο (όχι compile — το compile πέρασε καθαρά).
 
 **Root Cause:**
@@ -70,9 +69,9 @@ Split DWARF (`-gsplit-dwarf` compile flag) — θα κρατούσε πλήρε�
 **Ημερομηνία:** 11/9/2026
 
 **Symptom:**
-
+```
 fatal error: llvm/Passes/PassPlugin.h: No such file or directory
-
+```
 Κατά το compile του `CFIPass.cpp`, αμέσως μετά την επιτυχή ολοκλήρωση του LLVM build.
 
 **Root Cause:**
@@ -100,10 +99,10 @@ find /workspace/llvm-project/llvm/include -iname "PassPlugin.h"
 **Ημερομηνία:** 11/9/2026
 
 **Symptom:**
-
+```
 error: expected template-name before '<' token
 struct CFIPass : PassInfoMixin<CFIPass> {
-
+```
 Παρόλο που το `#include "llvm/IR/PassManager.h"` προστέθηκε σωστά (επιβεβαιώθηκε με grep ότι το header περιλαμβανόταν).
 
 **Root Cause:**
