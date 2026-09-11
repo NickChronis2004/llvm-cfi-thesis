@@ -1,0 +1,55 @@
+services:
+  llvm-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.llvm-dev
+    container_name: llvm-dev
+    volumes:
+      # Bind mount: reuses the llvm-project you already cloned on the host at
+      # ~/llvm-cfi, so it survives container recreation and you can also browse/edit
+      # it directly from the host (e.g. VS Code Remote-SSH) if you want.
+      # Adjust the left-hand path if ~/llvm-cfi resolves somewhere other than
+      # /home/nickchronis2004/llvm-cfi on your server.
+      - /home/nickchronis2004/llvm-cfi:/workspace
+    # SSH port bound ONLY to the tailscale0 interface IP, never 0.0.0.0.
+    # Replace 100.x.x.x with this host's actual tailscale IP (run `tailscale ip -4` to get it).
+    ports:
+      - "100.103.21.5:2222:22"
+    # Generous but bounded — leaves headroom for the host OS + victim-lab.
+    deploy:
+      resources:
+        limits:
+          memory: 12G
+          cpus: "14"
+    restart: unless-stopped
+    networks:
+      - labnet
+
+  victim-lab:
+    build:
+      context: .
+      dockerfile: Dockerfile.victim-lab
+    container_name: victim-lab
+    volumes:
+      # Compiled victim binaries land here (copied over from llvm-dev after each build).
+      - victim-binaries:/victim
+    ports:
+      - "100.103.21.5:4444:4444"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "2"
+    # No restart: unless-stopped here on purpose — you WILL crash this container
+    # on purpose during exploit dev, and want to `docker compose up victim-lab`
+    # explicitly rather than have it silently auto-resurrect mid-test.
+    restart: "no"
+    networks:
+      - labnet
+
+volumes:
+  victim-binaries:
+
+networks:
+  labnet:
+    driver: bridge

@@ -1,0 +1,18 @@
+# Upstream LLVM monorepo — τεράστιο (GBs), δεν μπαίνει ποτέ στο δικό μας repo.
+llvm-project/
+
+# Build artifacts του δικού μας pass — αναπαράγονται από τον πηγαίο κώδικα.
+cfi-pass/build/
+
+# ccache cache directory
+.ccache/
+
+# Compiled/generated
+*.o
+*.so
+*.a
+
+# Editor/OS junk
+.vscode/
+*.swp
+.DS_Store

@@ -1,0 +1,23 @@
+# Victim lab container — lightweight, runtime-only.
+# Runs the compiled (CFI-instrumented or not) binary as a network service
+# for remote ROP/JOP exploitation testing from Kali.
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Minimal runtime + exploitation-relevant tools.
+# gdbserver lets you attach a remote debugger from Kali if you want to inspect crashes live.
+RUN apt-get update && apt-get install -y \
+    libc6 \
+    gdbserver \
+    socat \
+    netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /victim
+
+# Binaries get bind-mounted or copied in here at runtime — see docker-compose.yml.
+# Nothing baked into the image: keep this container disposable, you'll be
+# restarting/recreating it constantly as exploits crash it.
+
+CMD ["/bin/bash", "-c", "echo 'victim-lab ready — exec in to launch a target binary' && tail -f /dev/null"]

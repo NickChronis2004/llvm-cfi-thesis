@@ -1,0 +1,43 @@
+# LLVM development container — build toolchain για CFI pass development
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Core build toolchain + LLVM build deps + debugging tools
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    ninja-build \
+    git \
+    python3 \
+    python3-pip \
+    ccache \
+    lld \
+    gdb \
+    curl \
+    wget \
+    vim \
+    tmux \
+    openssh-server \
+    zlib1g-dev \
+    libzstd-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Workspace layout:
+#   /workspace/llvm-project   -> upstream LLVM monorepo (shallow clone, huge, cache this)
+#   /workspace/cfi-pass       -> your pass source (small, will become its own git repo)
+WORKDIR /workspace
+
+# SSH server so you can SSH straight into this container (Tailscale reaches the host,
+# then you can either exec in via docker or expose sshd on a port bound to tailscale0 only)
+RUN mkdir -p /var/run/sshd && \
+    echo 'root:$Leon1925' | chpasswd && \
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# ccache speeds up repeat builds dramatically after the first full build
+ENV PATH="/usr/lib/ccache:${PATH}"
+ENV CCACHE_DIR=/workspace/.ccache
+
+EXPOSE 22
+
+CMD ["/bin/bash", "-c", "/usr/sbin/sshd && tail -f /dev/null"]
