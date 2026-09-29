@@ -142,10 +142,10 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> {
 // library provides a pass named "cfi-pass". When someone runs
 // `opt -passes=cfi-pass`, the callback below recognizes the name
 // and adds an instance of CFIPass to the module pass pipeline.
-// Contains no analysis logic of its own.
 llvm::PassPluginLibraryInfo getCFIPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "CFIPass", LLVM_VERSION_STRING,
           [](PassBuilder &PB) {
+            // για `opt -passes=cfi-pass`
             PB.registerPipelineParsingCallback(
                 [](StringRef Name, ModulePassManager &MPM,
                    ArrayRef<PassBuilder::PipelineElement>) {
@@ -155,9 +155,14 @@ llvm::PassPluginLibraryInfo getCFIPassPluginInfo() {
                   }
                   return false;
                 });
+
+            // για `clang -fpass-plugin=...`: τρέχει στην αρχή του pipeline
+            PB.registerPipelineStartEPCallback(
+                [](ModulePassManager &MPM, OptimizationLevel) {
+                  MPM.addPass(CFIPass());
+                });
           }};
 }
-
 // Entry point that `opt` looks for when dynamically loading this
 // shared library via -load-pass-plugin. extern "C" disables C++ name
 // mangling so the loader can find this exact symbol name.
