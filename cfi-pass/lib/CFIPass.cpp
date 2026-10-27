@@ -204,3 +204,12 @@ extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
   return getCFIPassPluginInfo();
 }
+
+/*
+Χαρακτηριστικό	Διαδρομή 1: opt	Διαδρομή 2: clang
+Είσοδος (Input)	LLVM IR (.ll / .bc) | Πηγαίος κώδικας C/C++ (.c)
+Έξοδος (Output) Τροποποιημένο LLVM IR (.ll) | Εκτελέσιμο binary (test_protected)
+Μηχανισμός RegistrationregisterPipelineParsingCallback  | registerPipelineStartEPCallback
+Πώς καλείται το Pass; Ρητά μέσω ονόματος (-passes=cfi-pass) |  Αυτόματα μέσω Hook στην αρχή του pipeline   
+Κύριος ΣκοπόςDebugging, inspection του IR, απομόνωση | Παραγωγή τελικού binary, automated builds
+*/
