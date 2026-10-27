@@ -42,7 +42,7 @@ void collectFuncs(Constant *C, SmallPtrSetImpl<Constant *> &Seen,
     Out.insert(F); // add the function to the output set
     return;
   }
-  // case: if the constant is a global variable, recurse on its initializer
+  // case: otherwise, recurse on all constant operands (arrays, structs, constant expressions, global initializers)
   for (Use &U : C->operands()) // iterate over the operands of the constant
     if (auto *Op = dyn_cast<Constant>(U.get())) // check if the operand is a constant
       collectFuncs(Op, Seen, Out); // recurse on the operand
