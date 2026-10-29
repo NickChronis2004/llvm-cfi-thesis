@@ -78,7 +78,7 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
           }
 
           for (Use &U : I.operands()) { // for every operand of the instruction
-            // if the operand is the callee of a call instruction,
+            // if the operand is type of call instruction save the it to the CB*,
             // skip it (we only want to look at other operands)
             if (auto *CB = dyn_cast<CallBase>(&I))
               if (CB->isCallee(&U))
