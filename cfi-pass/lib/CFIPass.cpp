@@ -16,6 +16,9 @@
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/Intrinsics.h"
 #include "llvm/Transforms/Utils/BasicBlockUtils.h"
+#include "llvm/ADT/SetVector.h"
+#include "llvm/ADT/MapVector.h"
+#include "llvm/ADT/STLExtras.h"
 
 using namespace llvm;
 
@@ -32,7 +35,7 @@ helper function to recursively collect all functions that are reachable from a g
     Out: a set of functions that are found to be address-taken
 */
 void collectFuncs(Constant *C, SmallPtrSetImpl<Constant *> &Seen,
-                  SmallPtrSetImpl<Function *> &Out) {
+                  SetVector<Function *> &Out) {
   // case: if we've already seen this constant, return early to 
   //avoid infinite recursion
   if (!Seen.insert(C).second)
@@ -56,8 +59,8 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
   // the main entry point of the pass. It takes a module and a module analysis 
   // manager as input
   PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM) {
-    SmallPtrSet<Function *, 16> AddressTakenFuncs; // set of functions that are address-taken
-    SmallPtrSet<CallBase *, 16> IndirectCallSites; // set of indirect call sites (call instructions that call through a function pointer)
+    SetVector<Function *> AddressTakenFuncs; // set of functions that are address-taken
+    SmallVector<CallBase *, 16> IndirectCallSites; // set of indirect call sites (call instructions that call through a function pointer)
     SmallPtrSet<Constant *, 32> Seen; // set of constants that have already been visited (to avoid infinite recursion)
 
     // collect all address-taken functions in the module, including those that are 
@@ -73,7 +76,7 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
           // check if this instruction is an indirect call site
           if (auto *CB = dyn_cast<CallBase>(&I)) {
             if (CB->isIndirectCall()) {
-              IndirectCallSites.insert(CB); // add the indirect call site to the set
+              IndirectCallSites.push_back(CB); // add the indirect call site to the set
             }
           }
 
@@ -96,19 +99,28 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
     }
 
 
-	// group legitimate targets by function type
-    DenseMap<FunctionType *, SmallVector<Function *, 8>> Targets; // map for grouping legitimate targets by function type 
-    // (key: function type, value: vector of functions with that type)
-    for (Function *F : AddressTakenFuncs) 
-      if (!F->isIntrinsic()) // skip intrinsic functions, 
-      // which are not user-defined and cannot be called indirectly
-        Targets[F->getFunctionType()].push_back(F); // add the function to the vector of functions with the same type
 
-        // print address-taken functions
+     // Group legitimate targets by function type.
+    // Sort by name first so the order is canonical: the output no longer
+    // depends on pointer values or on the order functions appear in the module.
+    SmallVector<Function *, 16> Sorted(AddressTakenFuncs.begin(),
+                                       AddressTakenFuncs.end());
+    llvm::sort(Sorted, [](Function *A, Function *B) {
+      return A->getName() < B->getName();
+    });
+
+    // MapVector (instead of DenseMap) iterates in insertion order, which keeps
+    // the "Targets per Type" output deterministic.
+    // key: function type, value: address-taken functions with that type
+    MapVector<FunctionType *, SmallVector<Function *, 8>> Targets;
+    for (Function *F : Sorted)
+      if (!F->isIntrinsic()) // intrinsics are not user-defined indirect targets
+        Targets[F->getFunctionType()].push_back(F);
+
+        // print address-taken functions (sorted by name)
     errs() << "=== CFI Pass: Address-Taken Functions ===\n";
-    for (Function *F : AddressTakenFuncs) {
+    for (Function *F : Sorted)
       errs() << "  " << F->getName() << "\n";
-    }
     errs() << "Total: " << AddressTakenFuncs.size() << "\n";
 
     // print indirect call sites
