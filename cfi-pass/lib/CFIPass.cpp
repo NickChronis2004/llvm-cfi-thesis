@@ -19,8 +19,33 @@
 #include "llvm/ADT/SetVector.h"
 #include "llvm/ADT/MapVector.h"
 #include "llvm/ADT/STLExtras.h"
+#include "llvm/Support/CommandLine.h"
+#include "llvm/Support/ErrorHandling.h"
+#include "llvm/ADT/Statistic.h"
 
 using namespace llvm;
+
+// command-line options (file scope, registered once when the plugin loads)
+static cl::opt<bool> Verbose("cfi-verbose",
+                             cl::desc("Print analysis results"),
+                             cl::init(false));
+
+// Which runtime check to emit. Only 'chain' is implemented for now; the other
+// values are placeholders so the measurement scripts can already pass
+// -cfi-check=<variant>
+enum class CheckKind { Chain, BinSearch, Trie };
+static cl::opt<CheckKind> CheckMode(
+    "cfi-check", cl::desc("Runtime check structure"),
+    cl::init(CheckKind::Chain),
+    cl::values(clEnumValN(CheckKind::Chain, "chain", "icmp chain"),
+               clEnumValN(CheckKind::BinSearch, "binsearch", "sorted array"),
+               clEnumValN(CheckKind::Trie, "trie", "trie")));
+
+// statistics (printed with `opt -stats`)
+#define DEBUG_TYPE "cfi-pass"
+STATISTIC(NumAddressTaken, "Address-taken functions");
+STATISTIC(NumIndirectSites, "Indirect call sites instrumented");
+STATISTIC(MaxTargets, "Max targets at one call site");
 
 namespace {
 
@@ -36,7 +61,7 @@ helper function to recursively collect all functions that are reachable from a g
 */
 void collectFuncs(Constant *C, SmallPtrSetImpl<Constant *> &Seen,
                   SetVector<Function *> &Out) {
-  // case: if we've already seen this constant, return early to 
+  // case: if we've already seen this constant, return early to
   //avoid infinite recursion
   if (!Seen.insert(C).second)
     return;
@@ -51,19 +76,24 @@ void collectFuncs(Constant *C, SmallPtrSetImpl<Constant *> &Seen,
       collectFuncs(Op, Seen, Out); // recurse on the operand
 }
 
-// the main pass class that implements the CFI pass. It inherits from 
+// the main pass class that implements the CFI pass. It inherits from
 //RequiredPassInfoMixin to provide the necessary interface for the pass manager
 struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a CRTP
   // base class that provides default implementations of the pass interface methods
 
-  // the main entry point of the pass. It takes a module and a module analysis 
+  // the main entry point of the pass. It takes a module and a module analysis
   // manager as input
   PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM) {
+    // fail loudly instead of silently running the chain check when another
+    // variant was requested (otherwise the measurements would be mislabeled)
+    if (CheckMode != CheckKind::Chain)
+      report_fatal_error("cfi-check: only 'chain' is implemented so far");
+
     SetVector<Function *> AddressTakenFuncs; // set of functions that are address-taken
     SmallVector<CallBase *, 16> IndirectCallSites; // set of indirect call sites (call instructions that call through a function pointer)
     SmallPtrSet<Constant *, 32> Seen; // set of constants that have already been visited (to avoid infinite recursion)
 
-    // collect all address-taken functions in the module, including those that are 
+    // collect all address-taken functions in the module, including those that are
     //referenced indirectly through global variables or other constants
     for (GlobalVariable &GV : M.globals())
       if (GV.hasInitializer()) // check if the global variable has an initializer
@@ -88,7 +118,7 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
                 continue;
 
             // any other operand: look for functions inside it
-            // example: if the operand is a constant array of function pointers, 
+            // example: if the operand is a constant array of function pointers,
             // we want to find all the functions in that array and skip the callee slot
             if (auto *C = dyn_cast<Constant>(U.get()))
               collectFuncs(C, Seen, AddressTakenFuncs);
@@ -99,6 +129,8 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
     }
 
 
+
+    NumAddressTaken += static_cast<unsigned>(AddressTakenFuncs.size());
 
      // Group legitimate targets by function type.
     // Sort by name first so the order is canonical: the output no longer
@@ -117,58 +149,70 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
       if (!F->isIntrinsic()) // intrinsics are not user-defined indirect targets
         Targets[F->getFunctionType()].push_back(F);
 
-        // print address-taken functions (sorted by name)
-    errs() << "=== CFI Pass: Address-Taken Functions ===\n";
-    for (Function *F : Sorted)
-      errs() << "  " << F->getName() << "\n";
-    errs() << "Total: " << AddressTakenFuncs.size() << "\n";
+    // ---- analysis output (only with -cfi-verbose) ----
+    if (Verbose) {
+      // print address-taken functions (sorted by name)
+      errs() << "=== CFI Pass: Address-Taken Functions ===\n";
+      for (Function *F : Sorted)
+        errs() << "  " << F->getName() << "\n";
+      errs() << "Total: " << AddressTakenFuncs.size() << "\n";
 
-    // print indirect call sites
-    errs() << "=== CFI Pass: Indirect Call Sites ===\n";
-    for (CallBase *CB : IndirectCallSites) {
-      errs() << "  in function " << CB->getFunction()->getName() << "\n";
+      // print indirect call sites
+      errs() << "=== CFI Pass: Indirect Call Sites ===\n";
+      for (CallBase *CB : IndirectCallSites) {
+        errs() << "  in function " << CB->getFunction()->getName() << "\n";
+      }
+      errs() << "Total: " << IndirectCallSites.size() << "\n";
+
+      // print legitimate targets grouped by function type
+      errs() << "=== CFI Pass: Targets per Type ===\n";
+      for (auto &[FT, Funcs] : Targets) {
+        errs() << "  type: ";
+        FT->print(errs());
+        errs() << "\n";
+        for (Function *F : Funcs)
+          errs() << "    " << F->getName() << "\n";
+      }
+
+      // print allowed targets per indirect call site
+      // (the SITE,<function>,<count> lines are meant to be parsed by scripts)
+      errs() << "=== CFI Pass: Allowed Targets per Call Site ===\n";
+      for (CallBase *CB : IndirectCallSites) {
+        auto It = Targets.find(CB->getFunctionType());
+        size_t N = (It == Targets.end()) ? 0 : It->second.size();
+        errs() << "  in " << CB->getFunction()->getName() << ": " << N
+               << " allowed target(s)\n";
+        errs() << "SITE," << CB->getFunction()->getName() << "," << N << "\n";
+      }
     }
-    errs() << "Total: " << IndirectCallSites.size() << "\n";
 
-    // print legitimate targets grouped by function type
-    errs() << "=== CFI Pass: Targets per Type ===\n";
-    for (auto &[FT, Funcs] : Targets) {
-      errs() << "  type: ";
-      FT->print(errs());
-      errs() << "\n";
-      for (Function *F : Funcs)
-        errs() << "    " << F->getName() << "\n";
-    }
-
-    // print allowed targets per indirect call site
-    errs() << "=== CFI Pass: Allowed Targets per Call Site ===\n";
-    for (CallBase *CB : IndirectCallSites) {
-      auto It = Targets.find(CB->getFunctionType());
-      errs() << "  in " << CB->getFunction()->getName() << ": "
-             << (It == Targets.end() ? 0 : It->second.size())
-             << " allowed target(s)\n";
-    }
-
-        /* for each indirect call site, insert a runtime check that 
-         verifies that the callee is one of the legitimate targets for 
+        /* for each indirect call site, insert a runtime check that
+         verifies that the callee is one of the legitimate targets for
         that call site. If the check fails, trap the program.
         */
     bool Changed = false;
     for (CallBase *CB : IndirectCallSites) {
       IRBuilder<> B(CB); // create an IRBuilder at the location of the indirect call site
       // get the callee operand of the call instruction (the function pointer being called)
-      Value *Callee = CB->getCalledOperand(); 
+      Value *Callee = CB->getCalledOperand();
 
       // ok = (callee == t1) || (callee == t2) || ...
       Value *Ok = B.getFalse(); // initialize Ok to false
       auto It = Targets.find(CB->getFunctionType()); // find the legitimate targets for this call site's function type
-      if (It != Targets.end()) // if there are legitimate targets for this function type
+      unsigned NumT = 0;
+      if (It != Targets.end()) { // if there are legitimate targets for this function type
+        NumT = static_cast<unsigned>(It->second.size());
         for (Function *T : It->second) // for each legitimate target function
-        // update Ok to be true if the callee matches any of the legitimate targets
+          // update Ok to be true if the callee matches any of the legitimate targets
           Ok = B.CreateOr(Ok, B.CreateICmpEQ(Callee, T));
+      }
+
+      // statistics
+      ++NumIndirectSites;
+      MaxTargets.updateMax(NumT);
 
       // if Ok is false, split the basic block and insert a trap instruction
-      Value *Bad = B.CreateNot(Ok); 
+      Value *Bad = B.CreateNot(Ok);
       Instruction *Term = SplitBlockAndInsertIfThen(
           Bad, CB->getIterator(), /*Unreachable=*/true);
       IRBuilder<> TB(Term);
@@ -218,10 +262,10 @@ llvmGetPassPluginInfo() {
 }
 
 /*
-Χαρακτηριστικό	Διαδρομή 1: opt	Διαδρομή 2: clang
-Είσοδος (Input)	LLVM IR (.ll / .bc) | Πηγαίος κώδικας C/C++ (.c)
+Χαρακτηριστικό  Διαδρομή 1: opt Διαδρομή 2: clang
+Είσοδος (Input) LLVM IR (.ll / .bc) | Πηγαίος κώδικας C/C++ (.c)
 Έξοδος (Output) Τροποποιημένο LLVM IR (.ll) | Εκτελέσιμο binary (test_protected)
 Μηχανισμός RegistrationregisterPipelineParsingCallback  | registerPipelineStartEPCallback
-Πώς καλείται το Pass; Ρητά μέσω ονόματος (-passes=cfi-pass) |  Αυτόματα μέσω Hook στην αρχή του pipeline   
+Πώς καλείται το Pass; Ρητά μέσω ονόματος (-passes=cfi-pass) |  Αυτόματα μέσω Hook στην αρχή του pipeline
 Κύριος ΣκοπόςDebugging, inspection του IR, απομόνωση | Παραγωγή τελικού binary, automated builds
 */
