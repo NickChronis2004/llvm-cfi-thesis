@@ -22,17 +22,18 @@
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/ErrorHandling.h"
 #include "llvm/ADT/Statistic.h"
+#include "llvm/Transforms/Utils/ModuleUtils.h"
 
 using namespace llvm;
 
-// command-line options (file scope, registered once when the plugin loads)
+// ---- command-line options (file scope, registered once when the plugin loads) ----
 static cl::opt<bool> Verbose("cfi-verbose",
                              cl::desc("Print analysis results"),
                              cl::init(false));
 
-// Which runtime check to emit. Only 'chain' is implemented for now; the other
-// values are placeholders so the measurement scripts can already pass
-// -cfi-check=<variant>
+// Which runtime check to emit. 'chain' and 'binsearch' are implemented; 'trie'
+// is still a placeholder so the measurement scripts can already pass
+// -cfi-check=<variant>.
 enum class CheckKind { Chain, BinSearch, Trie };
 static cl::opt<CheckKind> CheckMode(
     "cfi-check", cl::desc("Runtime check structure"),
@@ -41,7 +42,7 @@ static cl::opt<CheckKind> CheckMode(
                clEnumValN(CheckKind::BinSearch, "binsearch", "sorted array"),
                clEnumValN(CheckKind::Trie, "trie", "trie")));
 
-// statistics (printed with `opt -stats`)
+// ---- statistics (printed with `opt -stats`) ----
 #define DEBUG_TYPE "cfi-pass"
 STATISTIC(NumAddressTaken, "Address-taken functions");
 STATISTIC(NumIndirectSites, "Indirect call sites instrumented");
@@ -86,8 +87,8 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
   PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM) {
     // fail loudly instead of silently running the chain check when another
     // variant was requested (otherwise the measurements would be mislabeled)
-    if (CheckMode != CheckKind::Chain)
-      report_fatal_error("cfi-check: only 'chain' is implemented so far");
+    if (CheckMode == CheckKind::Trie)
+      report_fatal_error("cfi-check: 'trie' is not implemented yet");
 
     SetVector<Function *> AddressTakenFuncs; // set of functions that are address-taken
     SmallVector<CallBase *, 16> IndirectCallSites; // set of indirect call sites (call instructions that call through a function pointer)
@@ -186,6 +187,24 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
       }
     }
 
+    // ---- binsearch support ----
+    // Function addresses are not known at compile time (PIE/ASLR), so for
+    // 'binsearch' we emit one writable table of targets per function type and
+    // sort it by address at program start (see cfi_rt.c). The runtime
+    // functions are only declared here; cfi_rt.bc is linked in afterwards.
+    LLVMContext &Ctx = M.getContext();
+    Type *PtrTy = PointerType::getUnqual(Ctx);
+    Type *I32Ty = Type::getInt32Ty(Ctx);
+    Type *IntPtrTy = M.getDataLayout().getIntPtrType(Ctx);
+    MapVector<FunctionType *, GlobalVariable *> Tables; // key: function type
+    FunctionCallee CheckFn, SortFn;
+    if (CheckMode == CheckKind::BinSearch) {
+      CheckFn = M.getOrInsertFunction("__cfi_check_bs", I32Ty, PtrTy, I32Ty,
+                                      IntPtrTy);
+      SortFn = M.getOrInsertFunction("__cfi_sort", Type::getVoidTy(Ctx), PtrTy,
+                                     I32Ty);
+    }
+
         /* for each indirect call site, insert a runtime check that
          verifies that the callee is one of the legitimate targets for
         that call site. If the check fails, trap the program.
@@ -196,23 +215,48 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
       // get the callee operand of the call instruction (the function pointer being called)
       Value *Callee = CB->getCalledOperand();
 
-      // ok = (callee == t1) || (callee == t2) || ...
-      Value *Ok = B.getFalse(); // initialize Ok to false
-      auto It = Targets.find(CB->getFunctionType()); // find the legitimate targets for this call site's function type
+      FunctionType *FT = CB->getFunctionType();
+      auto It = Targets.find(FT); // find the legitimate targets for this call site's function type
       unsigned NumT = 0;
-      if (It != Targets.end()) { // if there are legitimate targets for this function type
+      if (It != Targets.end())
         NumT = static_cast<unsigned>(It->second.size());
-        for (Function *T : It->second) // for each legitimate target function
-          // update Ok to be true if the callee matches any of the legitimate targets
-          Ok = B.CreateOr(Ok, B.CreateICmpEQ(Callee, T));
-      }
 
       // statistics
       ++NumIndirectSites;
       MaxTargets.updateMax(NumT);
 
-      // if Ok is false, split the basic block and insert a trap instruction
-      Value *Bad = B.CreateNot(Ok);
+      // Bad = true if the callee is NOT one of the legitimate targets
+      Value *Bad;
+      if (CheckMode == CheckKind::BinSearch) {
+        if (NumT == 0) {
+          Bad = B.getTrue(); // no legitimate target at all: always fail
+        } else {
+          // create the table for this function type the first time it is needed
+          GlobalVariable *&Tab = Tables[FT];
+          if (!Tab) {
+            SmallVector<Constant *, 8> Elts(It->second.begin(), It->second.end());
+            ArrayType *AT = ArrayType::get(PtrTy, NumT);
+            Tab = new GlobalVariable(M, AT, /*isConstant=*/false,
+                                     GlobalValue::InternalLinkage,
+                                     ConstantArray::get(AT, Elts),
+                                     "__cfi_tab_" + Twine(Tables.size() - 1));
+          }
+          // r = __cfi_check_bs(table, n, (uintptr_t)callee); fail if r == 0
+          Value *R = B.CreateCall(
+              CheckFn, {Tab, B.getInt32(NumT), B.CreatePtrToInt(Callee, IntPtrTy)});
+          Bad = B.CreateICmpEQ(R, B.getInt32(0));
+        }
+      } else {
+        // ok = (callee == t1) || (callee == t2) || ...
+        Value *Ok = B.getFalse(); // initialize Ok to false
+        if (It != Targets.end()) // if there are legitimate targets for this function type
+          for (Function *T : It->second) // for each legitimate target function
+          // update Ok to be true if the callee matches any of the legitimate targets
+            Ok = B.CreateOr(Ok, B.CreateICmpEQ(Callee, T));
+        Bad = B.CreateNot(Ok);
+      }
+
+      // if the check failed, split the basic block and insert a trap instruction
       Instruction *Term = SplitBlockAndInsertIfThen(
           Bad, CB->getIterator(), /*Unreachable=*/true);
       IRBuilder<> TB(Term);
@@ -220,6 +264,23 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
       TB.CreateIntrinsic(Intrinsic::trap, ArrayRef<Value *>{});
       Changed = true; // mark that we have modified the module
     }
+
+    // binsearch: generate a constructor that sorts every table by address.
+    // Priority 0 = runs before the other constructors of the program.
+    if (!Tables.empty()) {
+      Function *Init = Function::Create(
+          FunctionType::get(Type::getVoidTy(Ctx), false),
+          GlobalValue::InternalLinkage, "__cfi_init", &M);
+      IRBuilder<> IB(BasicBlock::Create(Ctx, "entry", Init));
+      for (auto &KV : Tables) {
+        GlobalVariable *Tab = KV.second;
+        unsigned N = cast<ArrayType>(Tab->getValueType())->getNumElements();
+        IB.CreateCall(SortFn, {Tab, IB.getInt32(N)});
+      }
+      IB.CreateRetVoid();
+      appendToGlobalCtors(M, Init, /*Priority=*/0);
+    }
+
     // return the appropriate PreservedAnalyses value based on whether we modified the module
     return Changed ? PreservedAnalyses::none() : PreservedAnalyses::all();
   }
