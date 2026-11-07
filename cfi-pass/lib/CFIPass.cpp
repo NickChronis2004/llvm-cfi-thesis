@@ -31,9 +31,9 @@ static cl::opt<bool> Verbose("cfi-verbose",
                              cl::desc("Print analysis results"),
                              cl::init(false));
 
-// Which runtime check to emit. 'chain' and 'binsearch' are implemented; 'trie'
-// is still a placeholder so the measurement scripts can already pass
-// -cfi-check=<variant>.
+// Which runtime check to emit: 'chain' (icmp chain, no runtime support),
+// 'binsearch' (sorted array, cfi_rt.c) or 'trie' (3-level radix trie,
+// cfi_rt_trie.c). The measurement scripts pass -cfi-check=<variant>.
 enum class CheckKind { Chain, BinSearch, Trie };
 static cl::opt<CheckKind> CheckMode(
     "cfi-check", cl::desc("Runtime check structure"),
@@ -85,11 +85,6 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
   // the main entry point of the pass. It takes a module and a module analysis
   // manager as input
   PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM) {
-    // fail loudly instead of silently running the chain check when another
-    // variant was requested (otherwise the measurements would be mislabeled)
-    if (CheckMode == CheckKind::Trie)
-      report_fatal_error("cfi-check: 'trie' is not implemented yet");
-
     SetVector<Function *> AddressTakenFuncs; // set of functions that are address-taken
     SmallVector<CallBase *, 16> IndirectCallSites; // set of indirect call sites (call instructions that call through a function pointer)
     SmallPtrSet<Constant *, 32> Seen; // set of constants that have already been visited (to avoid infinite recursion)
@@ -187,22 +182,31 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
       }
     }
 
-    // ---- binsearch support ----
+    // ---- binsearch / trie support ----
     // Function addresses are not known at compile time (PIE/ASLR), so for
-    // 'binsearch' we emit one writable table of targets per function type and
-    // sort it by address at program start (see cfi_rt.c). The runtime
-    // functions are only declared here; cfi_rt.bc is linked in afterwards.
+    // 'binsearch' and 'trie' we emit one writable table of targets per function
+    // type and build the lookup structure at program start (binsearch: sort the
+    // table, see cfi_rt.c; trie: build a trie from it, see cfi_rt_trie.c). The
+    // runtime functions are only declared here; the runtime bitcode is linked
+    // in afterwards.
     LLVMContext &Ctx = M.getContext();
     Type *PtrTy = PointerType::getUnqual(Ctx);
     Type *I32Ty = Type::getInt32Ty(Ctx);
     Type *IntPtrTy = M.getDataLayout().getIntPtrType(Ctx);
     MapVector<FunctionType *, GlobalVariable *> Tables; // key: function type
-    FunctionCallee CheckFn, SortFn;
+    // trie only: one global per function type that holds the pointer to the
+    // trie built by the constructor (the pass treats the trie as opaque)
+    MapVector<FunctionType *, GlobalVariable *> Handles;
+    FunctionCallee CheckFn, SortFn, BuildFn;
     if (CheckMode == CheckKind::BinSearch) {
       CheckFn = M.getOrInsertFunction("__cfi_check_bs", I32Ty, PtrTy, I32Ty,
                                       IntPtrTy);
       SortFn = M.getOrInsertFunction("__cfi_sort", Type::getVoidTy(Ctx), PtrTy,
                                      I32Ty);
+    } else if (CheckMode == CheckKind::Trie) {
+      CheckFn = M.getOrInsertFunction("__cfi_check_trie", I32Ty, PtrTy,
+                                      IntPtrTy);
+      BuildFn = M.getOrInsertFunction("__cfi_trie_build", PtrTy, PtrTy, I32Ty);
     }
 
         /* for each indirect call site, insert a runtime check that
@@ -227,7 +231,7 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
 
       // Bad = true if the callee is NOT one of the legitimate targets
       Value *Bad;
-      if (CheckMode == CheckKind::BinSearch) {
+      if (CheckMode != CheckKind::Chain) {
         if (NumT == 0) {
           Bad = B.getTrue(); // no legitimate target at all: always fail
         } else {
@@ -240,10 +244,24 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
                                      GlobalValue::InternalLinkage,
                                      ConstantArray::get(AT, Elts),
                                      "__cfi_tab_" + Twine(Tables.size() - 1));
+            if (CheckMode == CheckKind::Trie)
+              Handles[FT] = new GlobalVariable(
+                  M, PtrTy, /*isConstant=*/false, GlobalValue::InternalLinkage,
+                  ConstantPointerNull::get(cast<PointerType>(PtrTy)),
+                  "__cfi_trie_" + Twine(Tables.size() - 1));
           }
-          // r = __cfi_check_bs(table, n, (uintptr_t)callee); fail if r == 0
-          Value *R = B.CreateCall(
-              CheckFn, {Tab, B.getInt32(NumT), B.CreatePtrToInt(Callee, IntPtrTy)});
+          Value *R;
+          if (CheckMode == CheckKind::BinSearch) {
+            // r = __cfi_check_bs(table, n, (uintptr_t)callee); fail if r == 0
+            R = B.CreateCall(
+                CheckFn,
+                {Tab, B.getInt32(NumT), B.CreatePtrToInt(Callee, IntPtrTy)});
+          } else {
+            // r = __cfi_check_trie(trie, (uintptr_t)callee); fail if r == 0
+            Value *Trie = B.CreateLoad(PtrTy, Handles[FT]);
+            R = B.CreateCall(CheckFn,
+                             {Trie, B.CreatePtrToInt(Callee, IntPtrTy)});
+          }
           Bad = B.CreateICmpEQ(R, B.getInt32(0));
         }
       } else {
@@ -265,7 +283,8 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
       Changed = true; // mark that we have modified the module
     }
 
-    // binsearch: generate a constructor that sorts every table by address.
+    // binsearch/trie: generate a constructor that prepares every table (binsearch:
+    // sort by address; trie: build the trie and store it in its handle).
     // Priority 0 = runs before the other constructors of the program.
     if (!Tables.empty()) {
       Function *Init = Function::Create(
@@ -275,7 +294,12 @@ struct CFIPass : RequiredPassInfoMixin<CFIPass> { // RequiredPassInfoMixin is a 
       for (auto &KV : Tables) {
         GlobalVariable *Tab = KV.second;
         unsigned N = cast<ArrayType>(Tab->getValueType())->getNumElements();
-        IB.CreateCall(SortFn, {Tab, IB.getInt32(N)});
+        if (CheckMode == CheckKind::BinSearch) {
+          IB.CreateCall(SortFn, {Tab, IB.getInt32(N)});
+        } else {
+          Value *T = IB.CreateCall(BuildFn, {Tab, IB.getInt32(N)});
+          IB.CreateStore(T, Handles[KV.first]);
+        }
       }
       IB.CreateRetVoid();
       appendToGlobalCtors(M, Init, /*Priority=*/0);

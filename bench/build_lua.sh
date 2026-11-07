@@ -13,20 +13,27 @@ for f in *.c; do
 done
 $B/llvm-link $OUT/bc/*.bc -o $OUT/lua_all.bc
 
-# runtime support for binsearch
+# runtime support for binsearch and trie
 $B/clang -O2 -Xclang -disable-llvm-passes -emit-llvm \
   -c /workspace/bench/cfi_rt.c -o $OUT/cfi_rt.bc
+$B/clang -O2 -Xclang -disable-llvm-passes -emit-llvm \
+  -c /workspace/bench/cfi_rt_trie.c -o $OUT/cfi_rt_trie.bc
 
 # baseline: ίδιο pipeline, χωρίς το pass
 $B/clang -O2 $OUT/lua_all.bc -o $OUT/lua_base -lm
 
 # variants with the pass
-for V in chain binsearch; do
+for V in chain binsearch trie; do
   $B/opt -load-pass-plugin=$PLUGIN -passes=cfi-pass -cfi-verbose -cfi-check=$V \
     $OUT/lua_all.bc -o $OUT/lua_$V.pre.bc 2> $OUT/cfi_verbose_$V.txt
-  if [ "$V" = binsearch ]; then
+  case $V in
+    binsearch) RT=$OUT/cfi_rt.bc ;;
+    trie)      RT=$OUT/cfi_rt_trie.bc ;;
+    *)         RT= ;;
+  esac
+  if [ -n "$RT" ]; then
     # the runtime is linked after the pass, so the pass never sees it
-    $B/llvm-link $OUT/lua_$V.pre.bc $OUT/cfi_rt.bc -o $OUT/lua_$V.bc
+    $B/llvm-link $OUT/lua_$V.pre.bc $RT -o $OUT/lua_$V.bc
   else
     cp $OUT/lua_$V.pre.bc $OUT/lua_$V.bc
   fi
