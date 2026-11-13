@@ -29,6 +29,8 @@ def quartiles(xs):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--resdir", default="results")
+    ap.add_argument("--title", default="",
+                    help="program name, added to the figure titles")
     a = ap.parse_args()
 
     data = defaultdict(list)  # (workload, variant) -> [seconds]
@@ -65,7 +67,8 @@ def main():
     ax.set_xticks([j + width * (len(inst) - 1) / 2 for j in range(len(workloads))])
     ax.set_xticklabels(workloads)
     ax.set_ylabel("run time / baseline (median, IQR)")
-    ax.set_title("Run-time overhead of the CFI check variants")
+    ax.set_title("Run-time overhead of the CFI check variants"
+                 + (f" ({a.title})" if a.title else ""))
     ax.legend()
     fig.tight_layout()
     fig.savefig(os.path.join(a.resdir, "slowdown.png"), dpi=200)
@@ -90,7 +93,7 @@ def main():
                         va="bottom", fontsize=8, xytext=(0, 4),
                         textcoords="offset points")
         ax.set_ylabel(".text size increase over baseline [KiB]")
-        ax.set_title("Code size overhead")
+        ax.set_title("Code size overhead" + (f" ({a.title})" if a.title else ""))
         fig.tight_layout()
         fig.savefig(os.path.join(a.resdir, "codesize.png"), dpi=200)
 

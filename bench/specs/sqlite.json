@@ -1,0 +1,12 @@
+{
+  "name": "sqlite",
+  "bindir": "sqlite/out",
+  "binprefix": "speedtest1",
+  "normalize": "[ \\t]+\\d+\\.\\d+s[ \\t]*$",
+  "workloads": {
+    "main": ["--memdb", "--size", "100", "--testset", "main", "--verify", "x.db"],
+    "cte":  ["--memdb", "--size", "100", "--testset", "cte",  "--verify", "x.db"],
+    "orm":  ["--memdb", "--size", "300", "--testset", "orm",  "--verify", "x.db"],
+    "fp":   ["--memdb", "--size", "100", "--testset", "fp",   "--verify", "x.db"]
+  }
+}

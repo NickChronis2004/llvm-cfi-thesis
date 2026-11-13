@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/bench/run_bench.py", line 219, in <module>
+    main()
+  File "/workspace/bench/run_bench.py", line 158, in main
+    _, got = run_once(cmd(v, w), a.cpu, scratch)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/bench/run_bench.py", line 51, in run_once
+    raise RuntimeError(f"{' '.join(cmd)} exited with {p.returncode}: "
+RuntimeError: taskset -c 2 /workspace/bench/sqlite/out/speedtest1_trie --memdb --size 100 --testset main --verify x.db exited with -6: cfi: targets span more than 16 MiB, trie cannot index them
+

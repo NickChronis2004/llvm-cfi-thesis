@@ -1,0 +1,450 @@
+=== CFI Pass: Address-Taken Functions ===
+  arith_add
+  arith_div
+  arith_idiv
+  arith_mod
+  arith_mul
+  arith_pow
+  arith_sub
+  arith_unm
+  boxgc
+  byteoffset
+  closepaux
+  codepoint
+  db_debug
+  db_gethook
+  db_getinfo
+  db_getlocal
+  db_getmetatable
+  db_getregistry
+  db_getupvalue
+  db_getuservalue
+  db_setcstacklimit
+  db_sethook
+  db_setlocal
+  db_setmetatable
+  db_setupvalue
+  db_setuservalue
+  db_traceback
+  db_upvalueid
+  db_upvaluejoin
+  dofilecont
+  dothecall
+  f_call
+  f_close
+  f_flush
+  f_gc
+  f_lines
+  f_luaopen
+  f_parser
+  f_read
+  f_seek
+  f_setvbuf
+  f_tostring
+  f_write
+  finishpcall
+  gctm
+  generic_reader
+  getF
+  getS
+  gmatch
+  gmatch_aux
+  hookf
+  io_close
+  io_fclose
+  io_flush
+  io_input
+  io_lines
+  io_noclose
+  io_open
+  io_output
+  io_pclose
+  io_popen
+  io_read
+  io_readline
+  io_tmpfile
+  io_type
+  io_write
+  ipairsaux
+  iter_auxlax
+  iter_auxstrict
+  iter_codes
+  l_alloc
+  laction
+  ll_loadlib
+  ll_require
+  ll_searchpath
+  lstop
+  luaB_assert
+  luaB_auxwrap
+  luaB_close
+  luaB_cocreate
+  luaB_collectgarbage
+  luaB_coresume
+  luaB_corunning
+  luaB_costatus
+  luaB_cowrap
+  luaB_dofile
+  luaB_error
+  luaB_getmetatable
+  luaB_ipairs
+  luaB_load
+  luaB_loadfile
+  luaB_next
+  luaB_pairs
+  luaB_pcall
+  luaB_print
+  luaB_rawequal
+  luaB_rawget
+  luaB_rawlen
+  luaB_rawset
+  luaB_select
+  luaB_setmetatable
+  luaB_tonumber
+  luaB_tostring
+  luaB_type
+  luaB_warn
+  luaB_xpcall
+  luaB_yield
+  luaB_yieldable
+  lua_newstate
+  luaopen_base
+  luaopen_coroutine
+  luaopen_debug
+  luaopen_io
+  luaopen_math
+  luaopen_os
+  luaopen_package
+  luaopen_string
+  luaopen_table
+  luaopen_utf8
+  math_abs
+  math_acos
+  math_asin
+  math_atan
+  math_ceil
+  math_cos
+  math_deg
+  math_exp
+  math_floor
+  math_fmod
+  math_log
+  math_max
+  math_min
+  math_modf
+  math_rad
+  math_random
+  math_randomseed
+  math_sin
+  math_sqrt
+  math_tan
+  math_toint
+  math_type
+  math_ult
+  msghandler
+  os_clock
+  os_date
+  os_difftime
+  os_execute
+  os_exit
+  os_getenv
+  os_remove
+  os_rename
+  os_setlocale
+  os_time
+  os_tmpname
+  pairscont
+  panic
+  pmain
+  resume
+  searcher_C
+  searcher_Croot
+  searcher_Lua
+  searcher_preload
+  sort
+  str_byte
+  str_char
+  str_dump
+  str_find
+  str_format
+  str_gsub
+  str_len
+  str_lower
+  str_match
+  str_pack
+  str_packsize
+  str_rep
+  str_reverse
+  str_sub
+  str_unpack
+  str_upper
+  tconcat
+  tinsert
+  tmove
+  tpack
+  tremove
+  tunpack
+  unroll
+  utfchar
+  utflen
+  warnfcont
+  warnfoff
+  warnfon
+  writer
+Total: 192
+=== CFI Pass: Indirect Call Sites ===
+  in function resizebox
+  in function luaD_throw
+  in function luaD_rawrunprotected
+  in function luaD_hook
+  in function precallC
+  in function resume
+  in function finishCcall
+  in function dumpBlock
+  in function aux_close
+  in function luaM_realloc_
+  in function tryagain
+  in function luaM_free_
+  in function luaM_malloc_
+  in function lua_newstate
+  in function close_state
+  in function luaE_warning
+  in function luaZ_fill
+Total: 17
+=== CFI Pass: Targets per Type ===
+  type: i32 (ptr)
+    arith_add
+    arith_div
+    arith_idiv
+    arith_mod
+    arith_mul
+    arith_pow
+    arith_sub
+    arith_unm
+    boxgc
+    byteoffset
+    codepoint
+    db_debug
+    db_gethook
+    db_getinfo
+    db_getlocal
+    db_getmetatable
+    db_getregistry
+    db_getupvalue
+    db_getuservalue
+    db_setcstacklimit
+    db_sethook
+    db_setlocal
+    db_setmetatable
+    db_setupvalue
+    db_setuservalue
+    db_traceback
+    db_upvalueid
+    db_upvaluejoin
+    f_close
+    f_flush
+    f_gc
+    f_lines
+    f_read
+    f_seek
+    f_setvbuf
+    f_tostring
+    f_write
+    gctm
+    gmatch
+    gmatch_aux
+    io_close
+    io_fclose
+    io_flush
+    io_input
+    io_lines
+    io_noclose
+    io_open
+    io_output
+    io_pclose
+    io_popen
+    io_read
+    io_readline
+    io_tmpfile
+    io_type
+    io_write
+    ipairsaux
+    iter_auxlax
+    iter_auxstrict
+    iter_codes
+    ll_loadlib
+    ll_require
+    ll_searchpath
+    luaB_assert
+    luaB_auxwrap
+    luaB_close
+    luaB_cocreate
+    luaB_collectgarbage
+    luaB_coresume
+    luaB_corunning
+    luaB_costatus
+    luaB_cowrap
+    luaB_dofile
+    luaB_error
+    luaB_getmetatable
+    luaB_ipairs
+    luaB_load
+    luaB_loadfile
+    luaB_next
+    luaB_pairs
+    luaB_pcall
+    luaB_print
+    luaB_rawequal
+    luaB_rawget
+    luaB_rawlen
+    luaB_rawset
+    luaB_select
+    luaB_setmetatable
+    luaB_tonumber
+    luaB_tostring
+    luaB_type
+    luaB_warn
+    luaB_xpcall
+    luaB_yield
+    luaB_yieldable
+    luaopen_base
+    luaopen_coroutine
+    luaopen_debug
+    luaopen_io
+    luaopen_math
+    luaopen_os
+    luaopen_package
+    luaopen_string
+    luaopen_table
+    luaopen_utf8
+    math_abs
+    math_acos
+    math_asin
+    math_atan
+    math_ceil
+    math_cos
+    math_deg
+    math_exp
+    math_floor
+    math_fmod
+    math_log
+    math_max
+    math_min
+    math_modf
+    math_rad
+    math_random
+    math_randomseed
+    math_sin
+    math_sqrt
+    math_tan
+    math_toint
+    math_type
+    math_ult
+    msghandler
+    os_clock
+    os_date
+    os_difftime
+    os_execute
+    os_exit
+    os_getenv
+    os_remove
+    os_rename
+    os_setlocale
+    os_time
+    os_tmpname
+    panic
+    pmain
+    searcher_C
+    searcher_Croot
+    searcher_Lua
+    searcher_preload
+    sort
+    str_byte
+    str_char
+    str_dump
+    str_find
+    str_format
+    str_gsub
+    str_len
+    str_lower
+    str_match
+    str_pack
+    str_packsize
+    str_rep
+    str_reverse
+    str_sub
+    str_unpack
+    str_upper
+    tconcat
+    tinsert
+    tmove
+    tpack
+    tremove
+    tunpack
+    utfchar
+    utflen
+  type: void (ptr, ptr)
+    closepaux
+    dothecall
+    f_call
+    f_luaopen
+    f_parser
+    hookf
+    lstop
+    resume
+    unroll
+  type: i32 (ptr, i32, i64)
+    dofilecont
+    finishpcall
+    pairscont
+  type: ptr (ptr, ptr, ptr)
+    generic_reader
+    getF
+    getS
+  type: ptr (ptr, ptr, i64, i64)
+    l_alloc
+  type: void (i32)
+    laction
+  type: ptr (ptr, ptr)
+    lua_newstate
+  type: void (ptr, ptr, i32)
+    warnfcont
+    warnfoff
+    warnfon
+  type: i32 (ptr, ptr, i64, ptr)
+    writer
+=== CFI Pass: Allowed Targets per Call Site ===
+  in resizebox: 1 allowed target(s)
+SITE,resizebox,1
+  in luaD_throw: 170 allowed target(s)
+SITE,luaD_throw,170
+  in luaD_rawrunprotected: 9 allowed target(s)
+SITE,luaD_rawrunprotected,9
+  in luaD_hook: 9 allowed target(s)
+SITE,luaD_hook,9
+  in precallC: 170 allowed target(s)
+SITE,precallC,170
+  in resume: 3 allowed target(s)
+SITE,resume,3
+  in finishCcall: 3 allowed target(s)
+SITE,finishCcall,3
+  in dumpBlock: 1 allowed target(s)
+SITE,dumpBlock,1
+  in aux_close: 170 allowed target(s)
+SITE,aux_close,170
+  in luaM_realloc_: 1 allowed target(s)
+SITE,luaM_realloc_,1
+  in tryagain: 1 allowed target(s)
+SITE,tryagain,1
+  in luaM_free_: 1 allowed target(s)
+SITE,luaM_free_,1
+  in luaM_malloc_: 1 allowed target(s)
+SITE,luaM_malloc_,1
+  in lua_newstate: 1 allowed target(s)
+SITE,lua_newstate,1
+  in close_state: 1 allowed target(s)
+SITE,close_state,1
+  in luaE_warning: 3 allowed target(s)
+SITE,luaE_warning,3
+  in luaZ_fill: 3 allowed target(s)
+SITE,luaZ_fill,3

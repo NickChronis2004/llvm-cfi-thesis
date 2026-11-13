@@ -1,0 +1,37 @@
+[sqlite] correctness: all variants produce the same output as base
+rep 1/15
+rep 2/15
+rep 3/15
+rep 4/15
+rep 5/15
+rep 6/15
+rep 7/15
+rep 8/15
+rep 9/15
+rep 10/15
+rep 11/15
+rep 12/15
+rep 13/15
+rep 14/15
+rep 15/15
+
+[sqlite]
+workload  variant      median[s]   IQR[s]  vs base
+main      base             1.803    0.006    1.00x
+main      chain            2.173    0.003    1.20x
+main      binsearch        1.974    0.009    1.09x
+main      trie             1.911    0.012    1.06x
+cte       base             1.048    0.002    1.00x
+cte       chain            1.392    0.002    1.33x
+cte       binsearch        1.211    0.003    1.16x
+cte       trie             1.114    0.004    1.06x
+orm       base             1.148    0.006    1.00x
+orm       chain            2.066    0.004    1.80x
+orm       binsearch        1.376    0.006    1.20x
+orm       trie             1.204    0.009    1.05x
+fp        base             1.621    0.023    1.00x
+fp        chain            2.373    0.035    1.46x
+fp        binsearch        1.823    0.008    1.12x
+fp        trie             1.745    0.028    1.08x
+
+wrote results/sqlite/run_20261113_1443/results.csv and sizes.csv (reps=15, cpu=2)
