@@ -1,0 +1,5 @@
+variant,text,data,bss,file_bytes
+base,350884,4952,16,397992
+chain,367037,4952,16,414480
+binsearch,362451,6504,16,412360
+trie,358456,6504,72,408464

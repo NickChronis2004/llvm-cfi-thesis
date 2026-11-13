@@ -1,0 +1,32 @@
+correctness: all variants produce identical output
+rep 1/15
+rep 2/15
+rep 3/15
+rep 4/15
+rep 5/15
+rep 6/15
+rep 7/15
+rep 8/15
+rep 9/15
+rep 10/15
+rep 11/15
+rep 12/15
+rep 13/15
+rep 14/15
+rep 15/15
+
+workload  variant      median[s]   IQR[s]  vs base
+fib       base             0.456    0.002    1.00x
+fib       chain            0.454    0.008    1.00x
+fib       binsearch        0.437    0.002    0.96x
+fib       trie             0.466    0.001    1.02x
+cfunc     base             0.264    0.002    1.00x
+cfunc     chain            1.711    0.001    6.47x
+cfunc     binsearch        0.327    0.005    1.24x
+cfunc     trie             0.271    0.001    1.03x
+cmix      base             0.878    0.002    1.00x
+cmix      chain            2.289    0.002    2.61x
+cmix      binsearch        1.061    0.001    1.21x
+cmix      trie             0.993    0.003    1.13x
+
+wrote results/run_20261113_1359/results.csv and sizes.csv (reps=15, cpu=2)

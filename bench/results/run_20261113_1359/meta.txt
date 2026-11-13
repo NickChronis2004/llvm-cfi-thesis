@@ -1,0 +1,8 @@
+date:       2026-11-13T14:02:05+00:00
+cpu pinned: 2
+reps:       15
+git commit: 09142ced77a1c98f6b73c734d43755b7c08ba71c
+Linux baa8589e4c9d 6.8.0-139-generic #139-Ubuntu SMP PREEMPT_DYNAMIC Sat Aug  1 03:52:05 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+CPU(s):                                  16
+Model name:                              12th Gen Intel(R) Core(TM) i5-12500H
+CPU(s) scaling MHz:                      19%

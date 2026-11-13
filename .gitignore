@@ -16,3 +16,5 @@ cfi-pass/build/
 .vscode/
 *.swp
 .DS_Store
+bench/out/
+bench/lua-5.4.7/
