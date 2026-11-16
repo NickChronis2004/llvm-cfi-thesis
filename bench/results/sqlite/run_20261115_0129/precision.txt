@@ -1,0 +1,8 @@
+clang: 93 jump tables, 266 sites, 26 of them with 0 allowed targets (17 type ids without a table)
+clang allowed/site: mean 4.8  median 2  max 99  sites with 0 / 1 target: 26 / 76
+ours:  266 sites, mean allowed 20.9
+matched 266 sites (0 clang sites not matched):
+  mean allowed  clang 4.8   ours 20.9
+  sites where ours allows more: 169, equal: 97, fewer: 0
+  largest gaps (ours-clang): [100, 99, 70, 70, 69]
+wrote sqlite/out/clang_sites.csv

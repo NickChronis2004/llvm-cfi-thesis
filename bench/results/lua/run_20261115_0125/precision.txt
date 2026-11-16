@@ -1,0 +1,8 @@
+clang: 8 jump tables, 17 sites, 0 of them with 0 allowed targets (0 type ids without a table)
+clang allowed/site: mean 31.7  median 2  max 170  sites with 0 / 1 target: 0 / 8
+ours:  17 sites, mean allowed 32.2
+matched 17 sites (0 clang sites not matched):
+  mean allowed  clang 31.7   ours 32.2
+  sites where ours allows more: 2, equal: 15, fewer: 0
+  largest gaps (ours-clang): [7, 2, 0, 0, 0]
+wrote out/clang_sites.csv
