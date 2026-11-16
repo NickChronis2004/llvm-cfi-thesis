@@ -1,0 +1,1621 @@
+=== CFI Pass: Address-Taken Functions ===
+  absFunc
+  access
+  addConstraintFunc
+  agginfoFree
+  agginfoPersistExprCb
+  aggregateIdxEprRefToColCallback
+  analysisLoader
+  analyzeAggregate
+  attachFunc
+  authFunctions
+  avgFinalize
+  btreeInvokeBusyHandler
+  btreeParseCellPtr
+  btreeParseCellPtrIndex
+  btreeParseCellPtrNoPayload
+  bytelengthFunc
+  cdateFunc
+  cellSizePtr
+  cellSizePtrIdxLeaf
+  cellSizePtrNoPayload
+  cellSizePtrTableLeaf
+  changes
+  charFunc
+  checkConstraintExprNode
+  close
+  compileoptiongetFunc
+  compileoptionusedFunc
+  concatFunc
+  concatwsFunc
+  convertCompoundSelectToSubquery
+  countFinalize
+  countInverse
+  countStep
+  ctimeFunc
+  ctimestampFunc
+  cume_distInvFunc
+  cume_distStepFunc
+  cume_distValueFunc
+  dateFunc
+  datetimeFunc
+  dense_rankStepFunc
+  dense_rankValueFunc
+  detachFunc
+  disallowAggregatesInOrderByCb
+  dotlockCheckReservedLock
+  dotlockClose
+  dotlockIoFinderImpl
+  dotlockLock
+  dotlockUnlock
+  dropColumnFunc
+  dropConstraintFunc
+  errlogFunc
+  exprColumnFlagUnion
+  exprIdxCover
+  exprNodeCanReturnSubtype
+  exprNodeIsConstant
+  exprNodeIsConstantOrGroupBy
+  exprNodeIsDeterministic
+  exprNodePatternLengthEst
+  exprRefToSrcList
+  exprSelectWalkTableConstant
+  failConstraintFunc
+  fchmod
+  fchown
+  fcntl64
+  findConstraintFunc
+  first_valueFinalizeFunc
+  first_valueStepFunc
+  fixExprCb
+  fixSelectCb
+  fstat64
+  ftruncate64
+  gatherSelectWindowsCallback
+  gatherSelectWindowsSelectCallback
+  getPageError
+  getPageMMap
+  getPageNormal
+  getcwd
+  geteuid
+  groupConcatFinalize
+  groupConcatInverse
+  groupConcatStep
+  groupConcatValue
+  havingToWhereExprCb
+  hexFunc
+  impliesNotNullRow
+  incrAggDepth
+  instrFunc
+  jsonArrayFinal
+  jsonArrayFunc
+  jsonArrayLengthFunc
+  jsonArrayStep
+  jsonArrayValue
+  jsonCacheDeleteGeneric
+  jsonEachBestIndex
+  jsonEachClose
+  jsonEachColumn
+  jsonEachConnect
+  jsonEachDisconnect
+  jsonEachEof
+  jsonEachFilter
+  jsonEachNext
+  jsonEachOpen
+  jsonEachRowid
+  jsonErrorFunc
+  jsonExtractFunc
+  jsonGroupInverse
+  jsonObjectFinal
+  jsonObjectFunc
+  jsonObjectStep
+  jsonObjectValue
+  jsonPatchFunc
+  jsonPrettyFunc
+  jsonQuoteFunc
+  jsonRemoveFunc
+  jsonReplaceFunc
+  jsonSetFunc
+  jsonTypeFunc
+  jsonValidFunc
+  juliandayFunc
+  last_insert_rowid
+  last_valueFinalizeFunc
+  last_valueInvFunc
+  last_valueStepFunc
+  last_valueValueFunc
+  lengthFunc
+  likeFunc
+  lowerFunc
+  lstat64
+  memdbAccess
+  memdbClose
+  memdbCurrentTimeInt64
+  memdbDeviceCharacteristics
+  memdbDlClose
+  memdbDlError
+  memdbDlOpen
+  memdbDlSym
+  memdbFetch
+  memdbFileControl
+  memdbFileSize
+  memdbFullPathname
+  memdbGetLastError
+  memdbLock
+  memdbOpen
+  memdbRandomness
+  memdbRead
+  memdbSleep
+  memdbSync
+  memdbTruncate
+  memdbUnfetch
+  memdbUnlock
+  memdbWrite
+  memjrnlClose
+  memjrnlFileSize
+  memjrnlRead
+  memjrnlSync
+  memjrnlTruncate
+  memjrnlWrite
+  minMaxFinalize
+  minMaxValue
+  minmaxFunc
+  minmaxStep
+  mkdir
+  mmap64
+  mremap
+  munmap
+  nocaseCollatingFunc
+  nolockCheckReservedLock
+  nolockClose
+  nolockIoFinderImpl
+  nolockLock
+  nolockUnlock
+  noopMutexAlloc
+  noopMutexEnd
+  noopMutexEnter
+  noopMutexFree
+  noopMutexInit
+  noopMutexLeave
+  noopMutexTry
+  noopStepFunc
+  noopValueFunc
+  nth_valueFinalizeFunc
+  nth_valueStepFunc
+  ntileInvFunc
+  ntileStepFunc
+  ntileValueFunc
+  nullifFunc
+  openDirectory
+  pageReinit
+  pagerStress
+  pagerUndoCallback
+  pcache1Cachesize
+  pcache1Create
+  pcache1Destroy
+  pcache1Fetch
+  pcache1Init
+  pcache1Pagecount
+  pcache1Rekey
+  pcache1Shrink
+  pcache1Shutdown
+  pcache1Truncate
+  pcache1Unpin
+  percent_rankInvFunc
+  percent_rankStepFunc
+  percent_rankValueFunc
+  posixIoFinderImpl
+  posixOpen
+  pragmaVtabBestIndex
+  pragmaVtabClose
+  pragmaVtabColumn
+  pragmaVtabConnect
+  pragmaVtabDisconnect
+  pragmaVtabEof
+  pragmaVtabFilter
+  pragmaVtabNext
+  pragmaVtabOpen
+  pragmaVtabRowid
+  pread64
+  printfFunc
+  propagateConstantExprRewrite
+  pthreadMutexAlloc
+  pthreadMutexEnd
+  pthreadMutexEnter
+  pthreadMutexFree
+  pthreadMutexInit
+  pthreadMutexLeave
+  pthreadMutexTry
+  pwrite64
+  quoteFunc
+  randomBlob
+  randomFunc
+  randomFunc.346
+  rankStepFunc
+  rankValueFunc
+  read
+  readlink
+  recomputeColumnsUsedExpr
+  renameColumnExprCb
+  renameColumnFunc
+  renameColumnSelectCb
+  renameQuotefixExprCb
+  renameQuotefixFunc
+  renameTableExprCb
+  renameTableFunc
+  renameTableSelectCb
+  renameTableTest
+  renameUnmapExprCb
+  renameUnmapSelectCb
+  renumberCursorsCb
+  replaceFunc
+  resolveExprStep
+  resolveRemoveWindowsCb
+  resolveSelectStep
+  rmdir
+  roundFunc
+  row_numberStepFunc
+  row_numberValueFunc
+  rtrimCollFunc
+  selectAddSubqueryTypeInfo
+  selectCheckOnClausesExpr
+  selectCheckOnClausesSelect
+  selectExpander
+  selectRefEnter
+  selectRefLeave
+  selectWindowRewriteExprCb
+  selectWindowRewriteSelectCb
+  signFunc
+  sourceidFunc
+  sqlite3BinaryCompare
+  sqlite3BtreePayloadChecked
+  sqlite3BtreePutData
+  sqlite3DbFree
+  sqlite3DeleteReturning
+  sqlite3DeleteTableGeneric
+  sqlite3ExprDeleteGeneric
+  sqlite3ExprIfFalse
+  sqlite3ExprIfTrue
+  sqlite3ExprListDeleteGeneric
+  sqlite3ExprWalkNoop
+  sqlite3InitCallback
+  sqlite3InvalidFunction
+  sqlite3MemFree
+  sqlite3MemInit
+  sqlite3MemMalloc
+  sqlite3MemRealloc
+  sqlite3MemRoundup
+  sqlite3MemShutdown
+  sqlite3MemSize
+  sqlite3NoopDestructor
+  sqlite3RCStrUnref
+  sqlite3ReturningSubqueryCorrelated
+  sqlite3ReturningSubqueryVarSelect
+  sqlite3RowSetClear
+  sqlite3RowSetDelete
+  sqlite3SchemaClear
+  sqlite3SelectDeleteGeneric
+  sqlite3SelectPopWith
+  sqlite3SelectWalkFail
+  sqlite3SelectWalkNoop
+  sqlite3TestExtInit
+  sqlite3VdbeFrameMemDel
+  sqlite3VdbeRecordCompare
+  sqlite3VdbeValueListFree
+  sqlite3WalDefaultHook
+  sqlite3WalkWinDefnDummyCallback
+  sqlite3WalkerDepthDecrease
+  sqlite3WalkerDepthIncrease
+  sqlite3WindowExtraAggFuncDepth
+  sqlite3WithDeleteGeneric
+  sqlite3_free
+  sqlite3_get_table_cb
+  sqliteDefaultBusyCallback
+  stat64
+  statAccumDestructor
+  statGet
+  statInit
+  statPush
+  strftimeFunc
+  substrFunc
+  subtypeFunc
+  sumFinalize
+  sumInverse
+  sumStep
+  timeFunc
+  timediffFunc
+  totalFinalize
+  total_changes
+  traceCallback
+  trimFunc
+  typeofFunc
+  unhexFunc
+  unicodeFunc
+  unistrFunc
+  unixAccess
+  unixCheckReservedLock
+  unixClose
+  unixCurrentTime
+  unixCurrentTimeInt64
+  unixDelete
+  unixDeviceCharacteristics
+  unixFetch
+  unixFileControl
+  unixFileSize
+  unixFullPathname
+  unixGetLastError
+  unixGetSystemCall
+  unixGetpagesize
+  unixLock
+  unixNextSystemCall
+  unixOpen
+  unixRandomness
+  unixRead
+  unixSectorSize
+  unixSetSystemCall
+  unixShmBarrier
+  unixShmLock
+  unixShmMap
+  unixShmUnmap
+  unixSleep
+  unixSync
+  unixTruncate
+  unixUnfetch
+  unixUnlock
+  unixWrite
+  unixepochFunc
+  unlink
+  upperFunc
+  vdbeIncrPopulateThread
+  vdbePmaReaderBgIncrInit
+  vdbeRecordCompareInt
+  vdbeRecordCompareString
+  vdbeSorterCompare
+  vdbeSorterCompareInt
+  vdbeSorterCompareReal
+  vdbeSorterCompareText
+  vdbeSorterFlushThread
+  versionFunc
+  whereIndexedExprCleanup
+  whereIsCoveringIndexWalkCallback
+  write
+  xCompileOptions
+  xferCheckRowid
+  zeroblobFunc
+Total: 383
+=== CFI Pass: Indirect Call Sites ===
+  in function sqlite3_mutex_enter
+  in function sqlite3_mutex_leave
+  in function renderLogMsg
+  in function sqlite3_free
+  in function sqlite3_free
+  in function sqlite3MallocSize
+  in function sqlite3DbMallocSize
+  in function sqlite3Malloc
+  in function mallocWithAlarm
+  in function mallocWithAlarm
+  in function sqlite3VdbeMemGrow
+  in function sqlite3Realloc
+  in function sqlite3Realloc
+  in function sqlite3Realloc
+  in function vdbeMemClearExternAndSetNull
+  in function sqlite3VdbeMemFinalize
+  in function sqlite3MutexInit
+  in function sqlite3MutexAlloc
+  in function sqlite3MallocInit
+  in function sqlite3PcacheInitialize
+  in function sqlite3_mutex_free
+  in function memdbDlOpen
+  in function memdbDlError
+  in function memdbDlSym
+  in function memdbDlClose
+  in function memdbRandomness
+  in function memdbSleep
+  in function memdbGetLastError
+  in function memdbCurrentTimeInt64
+  in function sqlite3_mutex_alloc
+  in function unixOpen
+  in function unixOpen
+  in function unixDelete
+  in function unixDelete
+  in function unixAccess
+  in function unixAccess
+  in function unixFullPathname
+  in function unixRandomness
+  in function unixSync
+  in function unixFileSize
+  in function dotlockLock
+  in function dotlockUnlock
+  in function dotlockCheckReservedLock
+  in function unixFileControl
+  in function unixShmUnmap
+  in function unixUnmapfile
+  in function robust_open
+  in function robust_open
+  in function robust_open
+  in function robust_open
+  in function robust_open
+  in function robust_open
+  in function unixMapfile
+  in function unixRemapfile
+  in function unixRemapfile
+  in function unixRemapfile
+  in function unixRemapfile
+  in function unixRemapfile
+  in function unixShmPurge
+  in function unixShmRegionPerMap
+  in function robust_close
+  in function unixShmSystemLock
+  in function fcntlSizeHint
+  in function unixGetTempname
+  in function fileHasMoved
+  in function unixFcntlExternalReader
+  in function unixTempFileDir
+  in function unixTempFileDir
+  in function sqlite3OsRandomness
+  in function robust_ftruncate
+  in function seekAndWriteFd
+  in function seekAndRead
+  in function appendOnePathElement
+  in function appendOnePathElement
+  in function findReusableFd
+  in function fillInUnixFile
+  in function robustFchown
+  in function robustFchown
+  in function getFileMode
+  in function findInodeInfo
+  in function verifyDbFile
+  in function unixCheckReservedLock
+  in function unixShmMap
+  in function unixShmMap
+  in function unixOpenSharedMemory
+  in function unixLockSharedMemory
+  in function unixFileLock
+  in function unixFileLock
+  in function unixIsSharingShmNode
+  in function sqlite3BeginBenignMalloc
+  in function sqlite3EndBenignMalloc
+  in function sqlite3_msize
+  in function sqlite3VdbeMemSetStr
+  in function sqlite3VdbeMemSetText
+  in function invokeValueDestructor
+  in function vdbeCompareMemString
+  in function vdbeCompareMemStringWithEncodingChange
+  in function sqlite3_set_auxdata
+  in function sqlite3_set_auxdata
+  in function osLocaltime
+  in function sqlite3OsCurrentTimeInt64
+  in function sqlite3OsCurrentTimeInt64
+  in function sqlite3WalkSelect
+  in function sqlite3WalkSelect
+  in function sqlite3ParseObjectReset
+  in function sqlite3VtabUnlock
+  in function sqlite3VtabModuleUnref
+  in function sqlite3RollbackAll
+  in function vdbeCommit
+  in function sqlite3VtabSavepoint
+  in function sqlite3OsWrite
+  in function sqlite3OsDeviceCharacteristics
+  in function sqlite3OsOpen
+  in function sqlite3OsClose
+  in function sqlite3OsFileControl
+  in function sqlite3PagerGet
+  in function sqlite3PcacheFetch
+  in function pcacheUnpin
+  in function sqlite3OsUnfetch
+  in function sqlite3OsTruncate
+  in function pager_playback_one_page
+  in function sqlite3OsShmMap
+  in function sqlite3FaultSim
+  in function sqlite3OsRead
+  in function sqlite3OsFileSize
+  in function sqlite3PcacheSetPageSize
+  in function sqlite3PcacheSetPageSize
+  in function sqlite3PcacheSetPageSize
+  in function sqlite3OsFileControlHint
+  in function sqlite3PcacheFetchStress
+  in function sqlite3PcacheFetchStress
+  in function sqlite3PcacheDrop
+  in function sqlite3OsUnlock
+  in function sqlite3OsShmLock
+  in function sqlite3OsAccess
+  in function sqlite3OsSectorSize
+  in function sqlite3OsDelete
+  in function sqlite3OsSync
+  in function sqlite3PcacheTruncate
+  in function sqlite3PcacheTruncate
+  in function sqlite3PcachePagecount
+  in function sqlite3OsFetch
+  in function pagerUndoCallback
+  in function sqlite3WalUndo
+  in function sqlite3PagerDirectReadOk
+  in function btreeParseCell
+  in function sqlite3_mutex_try
+  in function sqlite3OsGetLastError
+  in function sqlite3VtabSync
+  in function callFinaliser
+  in function autoVacuumCommit
+  in function sqlite3OsShmBarrier
+  in function sqlite3OsSleep
+  in function sqlite3OsShmUnmap
+  in function modifyPagePointer
+  in function btreeCellSizeCheck
+  in function ptrmapPutOvflPtr
+  in function sqlite3PcacheMove
+  in function sqlite3PcacheMove
+  in function pager_wait_on_lock
+  in function sqlite3OsLock
+  in function sqlite3VdbeDeleteAuxData
+  in function sqlite3VdbeFreeCursorNN
+  in function sqlite3BtreeClose
+  in function sqlite3PcacheClose
+  in function walBusyLock
+  in function sqlite3WalkExprNN
+  in function sqlite3ParserAddCleanup
+  in function realAuthCheck
+  in function sqlite3AuthReadCol
+  in function callCollNeeded
+  in function callCollNeeded
+  in function sqlite3ProgressCheck
+  in function vtabCallConstructor
+  in function sqlite3MarkAllShadowTablesOf
+  in function sqlite3VtabOverloadFunction
+  in function exprCodeBetween
+  in function sqlite3OsFullPathname
+  in function sqlite3PcacheSetCachesize
+  in function sqlite3InvokeBusyHandler
+  in function sqlite3IsShadowTableOf
+  in function sqlite3_exec
+  in function invokeProfileCallback
+  in function invokeProfileCallback
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function sqlite3VdbeExec
+  in function doWalCallbacks
+  in function sqlite3BtreeIndexMoveto
+  in function sqlite3BtreeIndexMoveto
+  in function sqlite3BtreeIndexMoveto
+  in function sqlite3BtreeInsert
+  in function sqlite3BtreeInsert
+  in function sqlite3BtreeDelete
+  in function sqlite3BtreeDelete
+  in function sqlite3BtreeDelete
+  in function sqlite3VdbeMemAggValue
+  in function sqlite3VtabBegin
+  in function sqlite3VtabBegin
+  in function sqlite3VtabCallDestroy
+  in function sqlite3LeaveMutexAndCloseZombie
+  in function sqlite3LeaveMutexAndCloseZombie
+  in function functionDestroy
+  in function sqlite3OsCheckReservedLock
+  in function checkTreePage
+  in function checkTreePage
+  in function checkProgress
+  in function sqlite3ThreadCreate
+  in function vdbeSorterMerge
+  in function vdbeMergeEngineStep
+  in function vdbeMergeEngineCompare
+  in function balance_quick
+  in function balance_nonroot
+  in function balance_nonroot
+  in function balance_nonroot
+  in function balance_nonroot
+  in function balance_nonroot
+  in function defragmentPage
+  in function populateCellCache
+  in function computeCellSize
+  in function indexCellCompare
+  in function indexCellCompare
+  in function clearDatabasePage
+  in function sqlite3PcacheShrink
+  in function vtabBestIndex
+  in function isAuxiliaryVtabOperator
+  in function sqlite3_db_status64
+  in function bindText
+  in function sqlite3_bind_pointer
+  in function blobReadWrite
+  in function createModule
+  in function sqlite3PcacheShutdown
+  in function sqlite3MallocEnd
+  in function sqlite3MutexEnd
+  in function sqlite3Close
+  in function sqlite3Close
+  in function createFunctionApi
+  in function createFunctionApi
+  in function sqlite3_autovacuum_pages
+  in function openDatabase
+  in function createCollation
+  in function sqlite3AutoLoadExtensions
+  in function sqlite3_set_clientdata
+  in function sqlite3_set_clientdata
+  in function speedtest1_timestamp
+  in function speedtest1_timestamp
+  in function main
+Total: 266
+=== CFI Pass: Targets per Type ===
+  type: void (ptr, i32, ptr)
+    absFunc
+    addConstraintFunc
+    attachFunc
+    bytelengthFunc
+    cdateFunc
+    changes
+    charFunc
+    compileoptiongetFunc
+    compileoptionusedFunc
+    concatFunc
+    concatwsFunc
+    countInverse
+    countStep
+    ctimeFunc
+    ctimestampFunc
+    cume_distInvFunc
+    cume_distStepFunc
+    dateFunc
+    datetimeFunc
+    dense_rankStepFunc
+    detachFunc
+    dropColumnFunc
+    dropConstraintFunc
+    errlogFunc
+    failConstraintFunc
+    findConstraintFunc
+    first_valueStepFunc
+    groupConcatInverse
+    groupConcatStep
+    hexFunc
+    instrFunc
+    jsonArrayFunc
+    jsonArrayLengthFunc
+    jsonArrayStep
+    jsonErrorFunc
+    jsonExtractFunc
+    jsonGroupInverse
+    jsonObjectFunc
+    jsonObjectStep
+    jsonPatchFunc
+    jsonPrettyFunc
+    jsonQuoteFunc
+    jsonRemoveFunc
+    jsonReplaceFunc
+    jsonSetFunc
+    jsonTypeFunc
+    jsonValidFunc
+    juliandayFunc
+    last_insert_rowid
+    last_valueInvFunc
+    last_valueStepFunc
+    lengthFunc
+    likeFunc
+    lowerFunc
+    memdbDlError
+    minmaxFunc
+    minmaxStep
+    noopStepFunc
+    nth_valueStepFunc
+    ntileInvFunc
+    ntileStepFunc
+    nullifFunc
+    percent_rankInvFunc
+    percent_rankStepFunc
+    printfFunc
+    quoteFunc
+    randomBlob
+    randomFunc
+    randomFunc.346
+    rankStepFunc
+    renameColumnFunc
+    renameQuotefixFunc
+    renameTableFunc
+    renameTableTest
+    replaceFunc
+    roundFunc
+    row_numberStepFunc
+    signFunc
+    sourceidFunc
+    sqlite3InvalidFunction
+    statGet
+    statInit
+    statPush
+    strftimeFunc
+    substrFunc
+    subtypeFunc
+    sumInverse
+    sumStep
+    timeFunc
+    timediffFunc
+    total_changes
+    trimFunc
+    typeofFunc
+    unhexFunc
+    unicodeFunc
+    unistrFunc
+    unixepochFunc
+    upperFunc
+    versionFunc
+    zeroblobFunc
+  type: i32 (ptr, i32)
+    access
+    dotlockLock
+    dotlockUnlock
+    memdbLock
+    memdbSleep
+    memdbSync
+    memdbUnlock
+    memjrnlSync
+    mkdir
+    nolockLock
+    nolockUnlock
+    pagerUndoCallback
+    sqliteDefaultBusyCallback
+    unixLock
+    unixShmUnmap
+    unixSleep
+    unixSync
+    unixUnlock
+  type: void (ptr, ptr)
+    agginfoFree
+    memdbDlClose
+    selectAddSubqueryTypeInfo
+    selectRefLeave
+    sqlite3DbFree
+    sqlite3DeleteReturning
+    sqlite3DeleteTableGeneric
+    sqlite3ExprDeleteGeneric
+    sqlite3ExprListDeleteGeneric
+    sqlite3SelectDeleteGeneric
+    sqlite3SelectPopWith
+    sqlite3WalkWinDefnDummyCallback
+    sqlite3WalkerDepthDecrease
+    sqlite3WithDeleteGeneric
+    traceCallback
+    whereIndexedExprCleanup
+  type: i32 (ptr, ptr)
+    agginfoPersistExprCb
+    aggregateIdxEprRefToColCallback
+    analyzeAggregate
+    authFunctions
+    checkConstraintExprNode
+    convertCompoundSelectToSubquery
+    disallowAggregatesInOrderByCb
+    dotlockCheckReservedLock
+    exprColumnFlagUnion
+    exprIdxCover
+    exprNodeCanReturnSubtype
+    exprNodeIsConstant
+    exprNodeIsConstantOrGroupBy
+    exprNodeIsDeterministic
+    exprNodePatternLengthEst
+    exprRefToSrcList
+    exprSelectWalkTableConstant
+    fixExprCb
+    fixSelectCb
+    gatherSelectWindowsCallback
+    gatherSelectWindowsSelectCallback
+    havingToWhereExprCb
+    impliesNotNullRow
+    incrAggDepth
+    jsonEachBestIndex
+    jsonEachOpen
+    jsonEachRowid
+    lstat64
+    memdbCurrentTimeInt64
+    memdbFileSize
+    memjrnlFileSize
+    nolockCheckReservedLock
+    openDirectory
+    pagerStress
+    pragmaVtabBestIndex
+    pragmaVtabOpen
+    pragmaVtabRowid
+    propagateConstantExprRewrite
+    recomputeColumnsUsedExpr
+    renameColumnExprCb
+    renameColumnSelectCb
+    renameQuotefixExprCb
+    renameTableExprCb
+    renameTableSelectCb
+    renameUnmapExprCb
+    renameUnmapSelectCb
+    renumberCursorsCb
+    resolveExprStep
+    resolveRemoveWindowsCb
+    resolveSelectStep
+    selectCheckOnClausesExpr
+    selectCheckOnClausesSelect
+    selectExpander
+    selectRefEnter
+    selectWindowRewriteExprCb
+    selectWindowRewriteSelectCb
+    sqlite3ExprWalkNoop
+    sqlite3ReturningSubqueryCorrelated
+    sqlite3ReturningSubqueryVarSelect
+    sqlite3SelectWalkFail
+    sqlite3SelectWalkNoop
+    sqlite3WalkerDepthIncrease
+    sqlite3WindowExtraAggFuncDepth
+    stat64
+    unixCheckReservedLock
+    unixCurrentTime
+    unixCurrentTimeInt64
+    unixFileSize
+    whereIsCoveringIndexWalkCallback
+    xferCheckRowid
+  type: i32 (ptr, i32, ptr, ptr)
+    analysisLoader
+    sqlite3InitCallback
+    sqlite3_get_table_cb
+    xCompileOptions
+  type: void (ptr)
+    avgFinalize
+    countFinalize
+    cume_distValueFunc
+    dense_rankValueFunc
+    first_valueFinalizeFunc
+    groupConcatFinalize
+    groupConcatValue
+    jsonArrayFinal
+    jsonArrayValue
+    jsonCacheDeleteGeneric
+    jsonObjectFinal
+    jsonObjectValue
+    last_valueFinalizeFunc
+    last_valueValueFunc
+    minMaxFinalize
+    minMaxValue
+    noopMutexEnter
+    noopMutexFree
+    noopMutexLeave
+    noopValueFunc
+    nth_valueFinalizeFunc
+    ntileValueFunc
+    pageReinit
+    pcache1Destroy
+    pcache1Shrink
+    pcache1Shutdown
+    percent_rankValueFunc
+    pthreadMutexEnter
+    pthreadMutexFree
+    pthreadMutexLeave
+    rankValueFunc
+    row_numberValueFunc
+    sqlite3MemFree
+    sqlite3MemShutdown
+    sqlite3NoopDestructor
+    sqlite3RCStrUnref
+    sqlite3RowSetClear
+    sqlite3RowSetDelete
+    sqlite3SchemaClear
+    sqlite3VdbeFrameMemDel
+    sqlite3VdbeValueListFree
+    sqlite3_free
+    statAccumDestructor
+    sumFinalize
+    totalFinalize
+    unixShmBarrier
+  type: i32 (ptr)
+    btreeInvokeBusyHandler
+    dotlockClose
+    jsonEachClose
+    jsonEachDisconnect
+    jsonEachEof
+    jsonEachNext
+    memdbClose
+    memdbDeviceCharacteristics
+    memjrnlClose
+    nolockClose
+    noopMutexTry
+    pcache1Init
+    pcache1Pagecount
+    pragmaVtabClose
+    pragmaVtabDisconnect
+    pragmaVtabEof
+    pragmaVtabNext
+    pthreadMutexTry
+    rmdir
+    sqlite3MemInit
+    sqlite3MemSize
+    sqlite3TestExtInit
+    unixClose
+    unixDeviceCharacteristics
+    unixSectorSize
+    unlink
+  type: void (ptr, ptr, ptr)
+    btreeParseCellPtr
+    btreeParseCellPtrIndex
+    btreeParseCellPtrNoPayload
+  type: i16 (ptr, ptr)
+    cellSizePtr
+    cellSizePtrIdxLeaf
+    cellSizePtrNoPayload
+    cellSizePtrTableLeaf
+  type: i32 (i32)
+    close
+    sqlite3MemRoundup
+  type: ptr (ptr, ptr)
+    dotlockIoFinderImpl
+    memdbDlOpen
+    nolockIoFinderImpl
+    posixIoFinderImpl
+    unixGetSystemCall
+    unixNextSystemCall
+  type: i32 (i32, i32)
+    fchmod
+  type: i32 (i32, i32, i32)
+    fchown
+  type: i32 (i32, i32, ...)
+    fcntl64
+  type: i32 (i32, ptr)
+    fstat64
+  type: i32 (i32, i64)
+    ftruncate64
+  type: i32 (ptr, i32, ptr, i32)
+    getPageError
+    getPageMMap
+    getPageNormal
+  type: ptr (ptr, i64)
+    getcwd
+  type: i32 ()
+    geteuid
+    noopMutexEnd
+    noopMutexInit
+    pthreadMutexEnd
+    pthreadMutexInit
+    unixGetpagesize
+  type: i32 (ptr, ptr, i32)
+    jsonEachColumn
+    pragmaVtabColumn
+    unixDelete
+  type: i32 (ptr, ptr, i32, ptr, ptr, ptr)
+    jsonEachConnect
+    pragmaVtabConnect
+  type: i32 (ptr, i32, ptr, i32, ptr)
+    jsonEachFilter
+    nocaseCollatingFunc
+    pragmaVtabFilter
+    rtrimCollFunc
+    sqlite3BinaryCompare
+  type: i32 (ptr, ptr, i32, ptr)
+    memdbAccess
+    memdbFullPathname
+    unixAccess
+    unixFullPathname
+  type: ptr (ptr, ptr, ptr)
+    memdbDlSym
+  type: i32 (ptr, i64, i32, ptr)
+    memdbFetch
+    unixFetch
+  type: i32 (ptr, i32, ptr)
+    memdbFileControl
+    memdbGetLastError
+    memdbRandomness
+    unixFileControl
+    unixGetLastError
+    unixRandomness
+  type: i32 (ptr, ptr, ptr, i32, ptr)
+    memdbOpen
+    unixOpen
+  type: i32 (ptr, ptr, i32, i64)
+    memdbRead
+    memdbWrite
+    memjrnlRead
+    memjrnlWrite
+    unixRead
+    unixWrite
+  type: i32 (ptr, i64)
+    memdbTruncate
+    memjrnlTruncate
+    munmap
+    unixTruncate
+  type: i32 (ptr, i64, ptr)
+    memdbUnfetch
+    unixUnfetch
+  type: ptr (ptr, i64, i32, i32, i32, i64)
+    mmap64
+  type: ptr (ptr, i64, i64, i32, ...)
+    mremap
+  type: ptr (i32)
+    noopMutexAlloc
+    pthreadMutexAlloc
+    sqlite3MemMalloc
+  type: void (ptr, i32)
+    pcache1Cachesize
+    pcache1Truncate
+  type: ptr (i32, i32, i32)
+    pcache1Create
+  type: ptr (ptr, i32, i32)
+    pcache1Fetch
+  type: void (ptr, ptr, i32, i32)
+    pcache1Rekey
+    sqlite3ExprIfFalse
+    sqlite3ExprIfTrue
+  type: void (ptr, ptr, i32)
+    pcache1Unpin
+  type: i32 (ptr, i32, i32)
+    posixOpen
+  type: i64 (i32, ptr, i64, i64)
+    pread64
+    pwrite64
+  type: i64 (i32, ptr, i64)
+    read
+    write
+  type: i64 (ptr, ptr, i64)
+    readlink
+  type: i32 (ptr, i32, i32, ptr)
+    sqlite3BtreePayloadChecked
+    sqlite3BtreePutData
+  type: ptr (ptr, i32)
+    sqlite3MemRealloc
+  type: i32 (i32, ptr, ptr)
+    sqlite3VdbeRecordCompare
+    vdbeRecordCompareInt
+    vdbeRecordCompareString
+  type: i32 (ptr, ptr, ptr, i32)
+    sqlite3WalDefaultHook
+  type: i32 (ptr, ptr, ptr)
+    unixSetSystemCall
+  type: i32 (ptr, i32, i32, i32)
+    unixShmLock
+  type: i32 (ptr, i32, i32, i32, ptr)
+    unixShmMap
+  type: ptr (ptr)
+    vdbeIncrPopulateThread
+    vdbePmaReaderBgIncrInit
+    vdbeSorterFlushThread
+  type: i32 (ptr, ptr, ptr, i32, ptr, i32)
+    vdbeSorterCompare
+    vdbeSorterCompareInt
+    vdbeSorterCompareReal
+    vdbeSorterCompareText
+=== CFI Pass: Allowed Targets per Call Site ===
+  in sqlite3_mutex_enter: 46 allowed target(s)
+SITE,sqlite3_mutex_enter,46
+  in sqlite3_mutex_leave: 46 allowed target(s)
+SITE,sqlite3_mutex_leave,46
+  in renderLogMsg: 100 allowed target(s)
+SITE,renderLogMsg,100
+  in sqlite3_free: 46 allowed target(s)
+SITE,sqlite3_free,46
+  in sqlite3_free: 46 allowed target(s)
+SITE,sqlite3_free,46
+  in sqlite3MallocSize: 26 allowed target(s)
+SITE,sqlite3MallocSize,26
+  in sqlite3DbMallocSize: 26 allowed target(s)
+SITE,sqlite3DbMallocSize,26
+  in sqlite3Malloc: 3 allowed target(s)
+SITE,sqlite3Malloc,3
+  in mallocWithAlarm: 2 allowed target(s)
+SITE,mallocWithAlarm,2
+  in mallocWithAlarm: 3 allowed target(s)
+SITE,mallocWithAlarm,3
+  in sqlite3VdbeMemGrow: 46 allowed target(s)
+SITE,sqlite3VdbeMemGrow,46
+  in sqlite3Realloc: 2 allowed target(s)
+SITE,sqlite3Realloc,2
+  in sqlite3Realloc: 1 allowed target(s)
+SITE,sqlite3Realloc,1
+  in sqlite3Realloc: 1 allowed target(s)
+SITE,sqlite3Realloc,1
+  in vdbeMemClearExternAndSetNull: 46 allowed target(s)
+SITE,vdbeMemClearExternAndSetNull,46
+  in sqlite3VdbeMemFinalize: 46 allowed target(s)
+SITE,sqlite3VdbeMemFinalize,46
+  in sqlite3MutexInit: 6 allowed target(s)
+SITE,sqlite3MutexInit,6
+  in sqlite3MutexAlloc: 3 allowed target(s)
+SITE,sqlite3MutexAlloc,3
+  in sqlite3MallocInit: 26 allowed target(s)
+SITE,sqlite3MallocInit,26
+  in sqlite3PcacheInitialize: 26 allowed target(s)
+SITE,sqlite3PcacheInitialize,26
+  in sqlite3_mutex_free: 46 allowed target(s)
+SITE,sqlite3_mutex_free,46
+  in memdbDlOpen: 6 allowed target(s)
+SITE,memdbDlOpen,6
+  in memdbDlError: 100 allowed target(s)
+SITE,memdbDlError,100
+  in memdbDlSym: 1 allowed target(s)
+SITE,memdbDlSym,1
+  in memdbDlClose: 16 allowed target(s)
+SITE,memdbDlClose,16
+  in memdbRandomness: 6 allowed target(s)
+SITE,memdbRandomness,6
+  in memdbSleep: 18 allowed target(s)
+SITE,memdbSleep,18
+  in memdbGetLastError: 6 allowed target(s)
+SITE,memdbGetLastError,6
+  in memdbCurrentTimeInt64: 70 allowed target(s)
+SITE,memdbCurrentTimeInt64,70
+  in sqlite3_mutex_alloc: 3 allowed target(s)
+SITE,sqlite3_mutex_alloc,3
+  in unixOpen: 18 allowed target(s)
+SITE,unixOpen,18
+  in unixOpen: 26 allowed target(s)
+SITE,unixOpen,26
+  in unixDelete: 26 allowed target(s)
+SITE,unixDelete,26
+  in unixDelete: 70 allowed target(s)
+SITE,unixDelete,70
+  in unixAccess: 70 allowed target(s)
+SITE,unixAccess,70
+  in unixAccess: 18 allowed target(s)
+SITE,unixAccess,18
+  in unixFullPathname: 1 allowed target(s)
+SITE,unixFullPathname,1
+  in unixRandomness: 2 allowed target(s)
+SITE,unixRandomness,2
+  in unixSync: 70 allowed target(s)
+SITE,unixSync,70
+  in unixFileSize: 1 allowed target(s)
+SITE,unixFileSize,1
+  in dotlockLock: 18 allowed target(s)
+SITE,dotlockLock,18
+  in dotlockUnlock: 26 allowed target(s)
+SITE,dotlockUnlock,26
+  in dotlockCheckReservedLock: 18 allowed target(s)
+SITE,dotlockCheckReservedLock,18
+  in unixFileControl: 2 allowed target(s)
+SITE,unixFileControl,2
+  in unixShmUnmap: 26 allowed target(s)
+SITE,unixShmUnmap,26
+  in unixUnmapfile: 4 allowed target(s)
+SITE,unixUnmapfile,4
+  in robust_open: 1 allowed target(s)
+SITE,robust_open,1
+  in robust_open: 26 allowed target(s)
+SITE,robust_open,26
+  in robust_open: 2 allowed target(s)
+SITE,robust_open,2
+  in robust_open: 1 allowed target(s)
+SITE,robust_open,1
+  in robust_open: 1 allowed target(s)
+SITE,robust_open,1
+  in robust_open: 1 allowed target(s)
+SITE,robust_open,1
+  in unixMapfile: 1 allowed target(s)
+SITE,unixMapfile,1
+  in unixRemapfile: 6 allowed target(s)
+SITE,unixRemapfile,6
+  in unixRemapfile: 4 allowed target(s)
+SITE,unixRemapfile,4
+  in unixRemapfile: 1 allowed target(s)
+SITE,unixRemapfile,1
+  in unixRemapfile: 4 allowed target(s)
+SITE,unixRemapfile,4
+  in unixRemapfile: 1 allowed target(s)
+SITE,unixRemapfile,1
+  in unixShmPurge: 4 allowed target(s)
+SITE,unixShmPurge,4
+  in unixShmRegionPerMap: 6 allowed target(s)
+SITE,unixShmRegionPerMap,6
+  in robust_close: 2 allowed target(s)
+SITE,robust_close,2
+  in unixShmSystemLock: 1 allowed target(s)
+SITE,unixShmSystemLock,1
+  in fcntlSizeHint: 1 allowed target(s)
+SITE,fcntlSizeHint,1
+  in unixGetTempname: 18 allowed target(s)
+SITE,unixGetTempname,18
+  in fileHasMoved: 70 allowed target(s)
+SITE,fileHasMoved,70
+  in unixFcntlExternalReader: 1 allowed target(s)
+SITE,unixFcntlExternalReader,1
+  in unixTempFileDir: 70 allowed target(s)
+SITE,unixTempFileDir,70
+  in unixTempFileDir: 18 allowed target(s)
+SITE,unixTempFileDir,18
+  in sqlite3OsRandomness: 6 allowed target(s)
+SITE,sqlite3OsRandomness,6
+  in robust_ftruncate: 1 allowed target(s)
+SITE,robust_ftruncate,1
+  in seekAndWriteFd: 2 allowed target(s)
+SITE,seekAndWriteFd,2
+  in seekAndRead: 2 allowed target(s)
+SITE,seekAndRead,2
+  in appendOnePathElement: 70 allowed target(s)
+SITE,appendOnePathElement,70
+  in appendOnePathElement: 1 allowed target(s)
+SITE,appendOnePathElement,1
+  in findReusableFd: 70 allowed target(s)
+SITE,findReusableFd,70
+  in fillInUnixFile: 6 allowed target(s)
+SITE,fillInUnixFile,6
+  in robustFchown: 6 allowed target(s)
+SITE,robustFchown,6
+  in robustFchown: 1 allowed target(s)
+SITE,robustFchown,1
+  in getFileMode: 70 allowed target(s)
+SITE,getFileMode,70
+  in findInodeInfo: 1 allowed target(s)
+SITE,findInodeInfo,1
+  in verifyDbFile: 1 allowed target(s)
+SITE,verifyDbFile,1
+  in unixCheckReservedLock: 1 allowed target(s)
+SITE,unixCheckReservedLock,1
+  in unixShmMap: 1 allowed target(s)
+SITE,unixShmMap,1
+  in unixShmMap: 1 allowed target(s)
+SITE,unixShmMap,1
+  in unixOpenSharedMemory: 1 allowed target(s)
+SITE,unixOpenSharedMemory,1
+  in unixLockSharedMemory: 1 allowed target(s)
+SITE,unixLockSharedMemory,1
+  in unixFileLock: 1 allowed target(s)
+SITE,unixFileLock,1
+  in unixFileLock: 1 allowed target(s)
+SITE,unixFileLock,1
+  in unixIsSharingShmNode: 1 allowed target(s)
+SITE,unixIsSharingShmNode,1
+  in sqlite3BeginBenignMalloc: 0 allowed target(s)
+SITE,sqlite3BeginBenignMalloc,0
+  in sqlite3EndBenignMalloc: 0 allowed target(s)
+SITE,sqlite3EndBenignMalloc,0
+  in sqlite3_msize: 26 allowed target(s)
+SITE,sqlite3_msize,26
+  in sqlite3VdbeMemSetStr: 46 allowed target(s)
+SITE,sqlite3VdbeMemSetStr,46
+  in sqlite3VdbeMemSetText: 46 allowed target(s)
+SITE,sqlite3VdbeMemSetText,46
+  in invokeValueDestructor: 46 allowed target(s)
+SITE,invokeValueDestructor,46
+  in vdbeCompareMemString: 5 allowed target(s)
+SITE,vdbeCompareMemString,5
+  in vdbeCompareMemStringWithEncodingChange: 5 allowed target(s)
+SITE,vdbeCompareMemStringWithEncodingChange,5
+  in sqlite3_set_auxdata: 46 allowed target(s)
+SITE,sqlite3_set_auxdata,46
+  in sqlite3_set_auxdata: 46 allowed target(s)
+SITE,sqlite3_set_auxdata,46
+  in osLocaltime: 70 allowed target(s)
+SITE,osLocaltime,70
+  in sqlite3OsCurrentTimeInt64: 70 allowed target(s)
+SITE,sqlite3OsCurrentTimeInt64,70
+  in sqlite3OsCurrentTimeInt64: 70 allowed target(s)
+SITE,sqlite3OsCurrentTimeInt64,70
+  in sqlite3WalkSelect: 70 allowed target(s)
+SITE,sqlite3WalkSelect,70
+  in sqlite3WalkSelect: 16 allowed target(s)
+SITE,sqlite3WalkSelect,16
+  in sqlite3ParseObjectReset: 16 allowed target(s)
+SITE,sqlite3ParseObjectReset,16
+  in sqlite3VtabUnlock: 26 allowed target(s)
+SITE,sqlite3VtabUnlock,26
+  in sqlite3VtabModuleUnref: 46 allowed target(s)
+SITE,sqlite3VtabModuleUnref,46
+  in sqlite3RollbackAll: 46 allowed target(s)
+SITE,sqlite3RollbackAll,46
+  in vdbeCommit: 26 allowed target(s)
+SITE,vdbeCommit,26
+  in sqlite3VtabSavepoint: 18 allowed target(s)
+SITE,sqlite3VtabSavepoint,18
+  in sqlite3OsWrite: 6 allowed target(s)
+SITE,sqlite3OsWrite,6
+  in sqlite3OsDeviceCharacteristics: 26 allowed target(s)
+SITE,sqlite3OsDeviceCharacteristics,26
+  in sqlite3OsOpen: 2 allowed target(s)
+SITE,sqlite3OsOpen,2
+  in sqlite3OsClose: 26 allowed target(s)
+SITE,sqlite3OsClose,26
+  in sqlite3OsFileControl: 6 allowed target(s)
+SITE,sqlite3OsFileControl,6
+  in sqlite3PagerGet: 3 allowed target(s)
+SITE,sqlite3PagerGet,3
+  in sqlite3PcacheFetch: 1 allowed target(s)
+SITE,sqlite3PcacheFetch,1
+  in pcacheUnpin: 1 allowed target(s)
+SITE,pcacheUnpin,1
+  in sqlite3OsUnfetch: 2 allowed target(s)
+SITE,sqlite3OsUnfetch,2
+  in sqlite3OsTruncate: 4 allowed target(s)
+SITE,sqlite3OsTruncate,4
+  in pager_playback_one_page: 46 allowed target(s)
+SITE,pager_playback_one_page,46
+  in sqlite3OsShmMap: 1 allowed target(s)
+SITE,sqlite3OsShmMap,1
+  in sqlite3FaultSim: 2 allowed target(s)
+SITE,sqlite3FaultSim,2
+  in sqlite3OsRead: 6 allowed target(s)
+SITE,sqlite3OsRead,6
+  in sqlite3OsFileSize: 70 allowed target(s)
+SITE,sqlite3OsFileSize,70
+  in sqlite3PcacheSetPageSize: 1 allowed target(s)
+SITE,sqlite3PcacheSetPageSize,1
+  in sqlite3PcacheSetPageSize: 2 allowed target(s)
+SITE,sqlite3PcacheSetPageSize,2
+  in sqlite3PcacheSetPageSize: 46 allowed target(s)
+SITE,sqlite3PcacheSetPageSize,46
+  in sqlite3OsFileControlHint: 6 allowed target(s)
+SITE,sqlite3OsFileControlHint,6
+  in sqlite3PcacheFetchStress: 70 allowed target(s)
+SITE,sqlite3PcacheFetchStress,70
+  in sqlite3PcacheFetchStress: 1 allowed target(s)
+SITE,sqlite3PcacheFetchStress,1
+  in sqlite3PcacheDrop: 1 allowed target(s)
+SITE,sqlite3PcacheDrop,1
+  in sqlite3OsUnlock: 18 allowed target(s)
+SITE,sqlite3OsUnlock,18
+  in sqlite3OsShmLock: 1 allowed target(s)
+SITE,sqlite3OsShmLock,1
+  in sqlite3OsAccess: 4 allowed target(s)
+SITE,sqlite3OsAccess,4
+  in sqlite3OsSectorSize: 26 allowed target(s)
+SITE,sqlite3OsSectorSize,26
+  in sqlite3OsDelete: 3 allowed target(s)
+SITE,sqlite3OsDelete,3
+  in sqlite3OsSync: 18 allowed target(s)
+SITE,sqlite3OsSync,18
+  in sqlite3PcacheTruncate: 1 allowed target(s)
+SITE,sqlite3PcacheTruncate,1
+  in sqlite3PcacheTruncate: 2 allowed target(s)
+SITE,sqlite3PcacheTruncate,2
+  in sqlite3PcachePagecount: 26 allowed target(s)
+SITE,sqlite3PcachePagecount,26
+  in sqlite3OsFetch: 2 allowed target(s)
+SITE,sqlite3OsFetch,2
+  in pagerUndoCallback: 46 allowed target(s)
+SITE,pagerUndoCallback,46
+  in sqlite3WalUndo: 18 allowed target(s)
+SITE,sqlite3WalUndo,18
+  in sqlite3PagerDirectReadOk: 26 allowed target(s)
+SITE,sqlite3PagerDirectReadOk,26
+  in btreeParseCell: 3 allowed target(s)
+SITE,btreeParseCell,3
+  in sqlite3_mutex_try: 26 allowed target(s)
+SITE,sqlite3_mutex_try,26
+  in sqlite3OsGetLastError: 6 allowed target(s)
+SITE,sqlite3OsGetLastError,6
+  in sqlite3VtabSync: 26 allowed target(s)
+SITE,sqlite3VtabSync,26
+  in callFinaliser: 26 allowed target(s)
+SITE,callFinaliser,26
+  in autoVacuumCommit: 0 allowed target(s)
+SITE,autoVacuumCommit,0
+  in sqlite3OsShmBarrier: 46 allowed target(s)
+SITE,sqlite3OsShmBarrier,46
+  in sqlite3OsSleep: 18 allowed target(s)
+SITE,sqlite3OsSleep,18
+  in sqlite3OsShmUnmap: 18 allowed target(s)
+SITE,sqlite3OsShmUnmap,18
+  in modifyPagePointer: 3 allowed target(s)
+SITE,modifyPagePointer,3
+  in btreeCellSizeCheck: 4 allowed target(s)
+SITE,btreeCellSizeCheck,4
+  in ptrmapPutOvflPtr: 3 allowed target(s)
+SITE,ptrmapPutOvflPtr,3
+  in sqlite3PcacheMove: 1 allowed target(s)
+SITE,sqlite3PcacheMove,1
+  in sqlite3PcacheMove: 3 allowed target(s)
+SITE,sqlite3PcacheMove,3
+  in pager_wait_on_lock: 26 allowed target(s)
+SITE,pager_wait_on_lock,26
+  in sqlite3OsLock: 18 allowed target(s)
+SITE,sqlite3OsLock,18
+  in sqlite3VdbeDeleteAuxData: 46 allowed target(s)
+SITE,sqlite3VdbeDeleteAuxData,46
+  in sqlite3VdbeFreeCursorNN: 26 allowed target(s)
+SITE,sqlite3VdbeFreeCursorNN,26
+  in sqlite3BtreeClose: 46 allowed target(s)
+SITE,sqlite3BtreeClose,46
+  in sqlite3PcacheClose: 46 allowed target(s)
+SITE,sqlite3PcacheClose,46
+  in walBusyLock: 26 allowed target(s)
+SITE,walBusyLock,26
+  in sqlite3WalkExprNN: 70 allowed target(s)
+SITE,sqlite3WalkExprNN,70
+  in sqlite3ParserAddCleanup: 16 allowed target(s)
+SITE,sqlite3ParserAddCleanup,16
+  in realAuthCheck: 0 allowed target(s)
+SITE,realAuthCheck,0
+  in sqlite3AuthReadCol: 0 allowed target(s)
+SITE,sqlite3AuthReadCol,0
+  in callCollNeeded: 0 allowed target(s)
+SITE,callCollNeeded,0
+  in callCollNeeded: 0 allowed target(s)
+SITE,callCollNeeded,0
+  in sqlite3ProgressCheck: 26 allowed target(s)
+SITE,sqlite3ProgressCheck,26
+  in vtabCallConstructor: 2 allowed target(s)
+SITE,vtabCallConstructor,2
+  in sqlite3MarkAllShadowTablesOf: 26 allowed target(s)
+SITE,sqlite3MarkAllShadowTablesOf,26
+  in sqlite3VtabOverloadFunction: 0 allowed target(s)
+SITE,sqlite3VtabOverloadFunction,0
+  in exprCodeBetween: 3 allowed target(s)
+SITE,exprCodeBetween,3
+  in sqlite3OsFullPathname: 4 allowed target(s)
+SITE,sqlite3OsFullPathname,4
+  in sqlite3PcacheSetCachesize: 2 allowed target(s)
+SITE,sqlite3PcacheSetCachesize,2
+  in sqlite3InvokeBusyHandler: 18 allowed target(s)
+SITE,sqlite3InvokeBusyHandler,18
+  in sqlite3IsShadowTableOf: 26 allowed target(s)
+SITE,sqlite3IsShadowTableOf,26
+  in sqlite3_exec: 4 allowed target(s)
+SITE,sqlite3_exec,4
+  in invokeProfileCallback: 0 allowed target(s)
+SITE,invokeProfileCallback,0
+  in invokeProfileCallback: 0 allowed target(s)
+SITE,invokeProfileCallback,0
+  in sqlite3VdbeExec: 26 allowed target(s)
+SITE,sqlite3VdbeExec,26
+  in sqlite3VdbeExec: 0 allowed target(s)
+SITE,sqlite3VdbeExec,0
+  in sqlite3VdbeExec: 0 allowed target(s)
+SITE,sqlite3VdbeExec,0
+  in sqlite3VdbeExec: 0 allowed target(s)
+SITE,sqlite3VdbeExec,0
+  in sqlite3VdbeExec: 70 allowed target(s)
+SITE,sqlite3VdbeExec,70
+  in sqlite3VdbeExec: 100 allowed target(s)
+SITE,sqlite3VdbeExec,100
+  in sqlite3VdbeExec: 100 allowed target(s)
+SITE,sqlite3VdbeExec,100
+  in sqlite3VdbeExec: 70 allowed target(s)
+SITE,sqlite3VdbeExec,70
+  in sqlite3VdbeExec: 26 allowed target(s)
+SITE,sqlite3VdbeExec,26
+  in sqlite3VdbeExec: 2 allowed target(s)
+SITE,sqlite3VdbeExec,2
+  in sqlite3VdbeExec: 5 allowed target(s)
+SITE,sqlite3VdbeExec,5
+  in sqlite3VdbeExec: 26 allowed target(s)
+SITE,sqlite3VdbeExec,26
+  in sqlite3VdbeExec: 3 allowed target(s)
+SITE,sqlite3VdbeExec,3
+  in sqlite3VdbeExec: 26 allowed target(s)
+SITE,sqlite3VdbeExec,26
+  in sqlite3VdbeExec: 26 allowed target(s)
+SITE,sqlite3VdbeExec,26
+  in sqlite3VdbeExec: 70 allowed target(s)
+SITE,sqlite3VdbeExec,70
+  in sqlite3VdbeExec: 4 allowed target(s)
+SITE,sqlite3VdbeExec,4
+  in sqlite3VdbeExec: 100 allowed target(s)
+SITE,sqlite3VdbeExec,100
+  in sqlite3VdbeExec: 16 allowed target(s)
+SITE,sqlite3VdbeExec,16
+  in sqlite3VdbeExec: 0 allowed target(s)
+SITE,sqlite3VdbeExec,0
+  in sqlite3VdbeExec: 0 allowed target(s)
+SITE,sqlite3VdbeExec,0
+  in sqlite3VdbeExec: 26 allowed target(s)
+SITE,sqlite3VdbeExec,26
+  in doWalCallbacks: 1 allowed target(s)
+SITE,doWalCallbacks,1
+  in sqlite3BtreeIndexMoveto: 3 allowed target(s)
+SITE,sqlite3BtreeIndexMoveto,3
+  in sqlite3BtreeIndexMoveto: 3 allowed target(s)
+SITE,sqlite3BtreeIndexMoveto,3
+  in sqlite3BtreeIndexMoveto: 3 allowed target(s)
+SITE,sqlite3BtreeIndexMoveto,3
+  in sqlite3BtreeInsert: 3 allowed target(s)
+SITE,sqlite3BtreeInsert,3
+  in sqlite3BtreeInsert: 3 allowed target(s)
+SITE,sqlite3BtreeInsert,3
+  in sqlite3BtreeDelete: 4 allowed target(s)
+SITE,sqlite3BtreeDelete,4
+  in sqlite3BtreeDelete: 3 allowed target(s)
+SITE,sqlite3BtreeDelete,3
+  in sqlite3BtreeDelete: 4 allowed target(s)
+SITE,sqlite3BtreeDelete,4
+  in sqlite3VdbeMemAggValue: 46 allowed target(s)
+SITE,sqlite3VdbeMemAggValue,46
+  in sqlite3VtabBegin: 26 allowed target(s)
+SITE,sqlite3VtabBegin,26
+  in sqlite3VtabBegin: 18 allowed target(s)
+SITE,sqlite3VtabBegin,18
+  in sqlite3VtabCallDestroy: 26 allowed target(s)
+SITE,sqlite3VtabCallDestroy,26
+  in sqlite3LeaveMutexAndCloseZombie: 46 allowed target(s)
+SITE,sqlite3LeaveMutexAndCloseZombie,46
+  in sqlite3LeaveMutexAndCloseZombie: 46 allowed target(s)
+SITE,sqlite3LeaveMutexAndCloseZombie,46
+  in functionDestroy: 46 allowed target(s)
+SITE,functionDestroy,46
+  in sqlite3OsCheckReservedLock: 70 allowed target(s)
+SITE,sqlite3OsCheckReservedLock,70
+  in checkTreePage: 3 allowed target(s)
+SITE,checkTreePage,3
+  in checkTreePage: 4 allowed target(s)
+SITE,checkTreePage,4
+  in checkProgress: 26 allowed target(s)
+SITE,checkProgress,26
+  in sqlite3ThreadCreate: 3 allowed target(s)
+SITE,sqlite3ThreadCreate,3
+  in vdbeSorterMerge: 4 allowed target(s)
+SITE,vdbeSorterMerge,4
+  in vdbeMergeEngineStep: 4 allowed target(s)
+SITE,vdbeMergeEngineStep,4
+  in vdbeMergeEngineCompare: 4 allowed target(s)
+SITE,vdbeMergeEngineCompare,4
+  in balance_quick: 4 allowed target(s)
+SITE,balance_quick,4
+  in balance_nonroot: 4 allowed target(s)
+SITE,balance_nonroot,4
+  in balance_nonroot: 4 allowed target(s)
+SITE,balance_nonroot,4
+  in balance_nonroot: 4 allowed target(s)
+SITE,balance_nonroot,4
+  in balance_nonroot: 3 allowed target(s)
+SITE,balance_nonroot,3
+  in balance_nonroot: 4 allowed target(s)
+SITE,balance_nonroot,4
+  in defragmentPage: 4 allowed target(s)
+SITE,defragmentPage,4
+  in populateCellCache: 4 allowed target(s)
+SITE,populateCellCache,4
+  in computeCellSize: 4 allowed target(s)
+SITE,computeCellSize,4
+  in indexCellCompare: 3 allowed target(s)
+SITE,indexCellCompare,3
+  in indexCellCompare: 3 allowed target(s)
+SITE,indexCellCompare,3
+  in clearDatabasePage: 3 allowed target(s)
+SITE,clearDatabasePage,3
+  in sqlite3PcacheShrink: 46 allowed target(s)
+SITE,sqlite3PcacheShrink,46
+  in vtabBestIndex: 70 allowed target(s)
+SITE,vtabBestIndex,70
+  in isAuxiliaryVtabOperator: 0 allowed target(s)
+SITE,isAuxiliaryVtabOperator,0
+  in sqlite3_db_status64: 2 allowed target(s)
+SITE,sqlite3_db_status64,2
+  in bindText: 46 allowed target(s)
+SITE,bindText,46
+  in sqlite3_bind_pointer: 46 allowed target(s)
+SITE,sqlite3_bind_pointer,46
+  in blobReadWrite: 2 allowed target(s)
+SITE,blobReadWrite,2
+  in createModule: 46 allowed target(s)
+SITE,createModule,46
+  in sqlite3PcacheShutdown: 46 allowed target(s)
+SITE,sqlite3PcacheShutdown,46
+  in sqlite3MallocEnd: 46 allowed target(s)
+SITE,sqlite3MallocEnd,46
+  in sqlite3MutexEnd: 6 allowed target(s)
+SITE,sqlite3MutexEnd,6
+  in sqlite3Close: 0 allowed target(s)
+SITE,sqlite3Close,0
+  in sqlite3Close: 46 allowed target(s)
+SITE,sqlite3Close,46
+  in createFunctionApi: 46 allowed target(s)
+SITE,createFunctionApi,46
+  in createFunctionApi: 46 allowed target(s)
+SITE,createFunctionApi,46
+  in sqlite3_autovacuum_pages: 46 allowed target(s)
+SITE,sqlite3_autovacuum_pages,46
+  in openDatabase: 26 allowed target(s)
+SITE,openDatabase,26
+  in createCollation: 46 allowed target(s)
+SITE,createCollation,46
+  in sqlite3AutoLoadExtensions: 1 allowed target(s)
+SITE,sqlite3AutoLoadExtensions,1
+  in sqlite3_set_clientdata: 46 allowed target(s)
+SITE,sqlite3_set_clientdata,46
+  in sqlite3_set_clientdata: 46 allowed target(s)
+SITE,sqlite3_set_clientdata,46
+  in speedtest1_timestamp: 70 allowed target(s)
+SITE,speedtest1_timestamp,70
+  in speedtest1_timestamp: 70 allowed target(s)
+SITE,speedtest1_timestamp,70
+  in main: 3 allowed target(s)
+SITE,main,3

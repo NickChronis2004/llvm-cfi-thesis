@@ -1,0 +1,39 @@
+[lua] correctness: all variants produce the same output as base
+rep 1/15
+rep 2/15
+rep 3/15
+rep 4/15
+rep 5/15
+rep 6/15
+rep 7/15
+rep 8/15
+rep 9/15
+rep 10/15
+rep 11/15
+rep 12/15
+rep 13/15
+rep 14/15
+rep 15/15
+
+[lua]
+workload  variant      median[s]   IQR[s]  vs base
+fib       base             0.456    0.002    1.00x
+fib       ltobase          0.463    0.010    1.02x
+fib       clangcfi         0.461    0.005    1.01x
+fib       chain            0.454    0.009    1.00x
+fib       binsearch        0.438    0.002    0.96x
+fib       trie             0.472    0.003    1.03x
+cfunc     base             0.264    0.001    1.00x
+cfunc     ltobase          0.260    0.001    0.99x
+cfunc     clangcfi         0.267    0.001    1.01x
+cfunc     chain            1.712    0.001    6.49x
+cfunc     binsearch        0.324    0.003    1.23x
+cfunc     trie             0.279    0.002    1.06x
+cmix      base             0.879    0.002    1.00x
+cmix      ltobase          0.864    0.001    0.98x
+cmix      clangcfi         0.880    0.003    1.00x
+cmix      chain            2.286    0.005    2.60x
+cmix      binsearch        1.061    0.001    1.21x
+cmix      trie             0.972    0.007    1.11x
+
+wrote results/lua/run_20261115_0125/results.csv and sizes.csv (reps=15, cpu=2)

@@ -1,0 +1,2 @@
+clangcfi flags: -fsanitize=cfi-icall -fsanitize-trap=cfi-icall -fno-sanitize-ignorelist
+jump-table type ids (nm | __typeid_*_global_addr):  8

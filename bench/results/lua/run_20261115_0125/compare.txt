@@ -1,0 +1,30 @@
+overhead [%] of median time (positive = slower), reps=15
+workload  variant         vs base  vs ltobase
+fib       base              +0.0%       -1.5%
+fib       ltobase           +1.5%       +0.0%
+fib       clangcfi          +1.0%       -0.6%
+fib       chain             -0.4%       -1.9%
+fib       binsearch         -4.1%       -5.5%
+fib       trie              +3.4%       +1.8%
+
+cfunc     base              +0.0%       +1.4%
+cfunc     ltobase           -1.3%       +0.0%
+cfunc     clangcfi          +1.3%       +2.7%
+cfunc     chain           +548.9%     +557.7%
+cfunc     binsearch        +22.9%      +24.5%
+cfunc     trie              +5.9%       +7.3%
+
+cmix      base              +0.0%       +1.7%
+cmix      ltobase           -1.7%       +0.0%
+cmix      clangcfi          +0.2%       +1.9%
+cmix      chain           +160.2%     +164.7%
+cmix      binsearch        +20.8%      +22.9%
+cmix      trie             +10.6%      +12.5%
+
+variant         .text        file  d.text vs base
+base           350884      397992         +0.0 KiB
+ltobase        323213      353768        -27.0 KiB
+clangcfi       331238      370392        -19.2 KiB
+chain          367037      414480        +15.8 KiB
+binsearch      362451      412360        +11.3 KiB
+trie           357247      404552         +6.2 KiB

@@ -15,8 +15,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # colour-blind safe, one fixed colour per variant (extend when trie exists)
-COLORS = {"base": "#7f7f7f", "chain": "#d55e00", "binsearch": "#0072b2",
-          "trie": "#009e73"}
+COLORS = {"base": "#7f7f7f", "ltobase": "#bbbbbb", "clangcfi": "#cc79a7",
+          "chain": "#d55e00", "binsearch": "#0072b2", "trie": "#009e73"}
 
 
 def quartiles(xs):
@@ -31,6 +31,13 @@ def main():
     ap.add_argument("--resdir", default="results")
     ap.add_argument("--title", default="",
                     help="program name, added to the figure titles")
+    ap.add_argument("--exclude", default="ltobase",
+                    help="comma list of variants left out of the slowdown "
+                         "figure (default: the ltobase control). Use "
+                         "ltobase,chain to see the small differences when "
+                         "chain's huge slowdown flattens the axis")
+    ap.add_argument("--tag", default="",
+                    help="suffix of the output file names, e.g. _nochain")
     a = ap.parse_args()
 
     data = defaultdict(list)  # (workload, variant) -> [seconds]
@@ -44,7 +51,8 @@ def main():
                 variants.append(r["variant"])
 
     # --- figure 1: slowdown vs baseline (median, bars = IQR) ---
-    inst = [v for v in variants if v != "base"]
+    skip = set(a.exclude.split(",")) | {"base"}
+    inst = [v for v in variants if v not in skip]
     fig, ax = plt.subplots(figsize=(7, 4))
     width = 0.8 / max(len(inst), 1)
     for i, v in enumerate(inst):
@@ -71,7 +79,7 @@ def main():
                  + (f" ({a.title})" if a.title else ""))
     ax.legend()
     fig.tight_layout()
-    fig.savefig(os.path.join(a.resdir, "slowdown.png"), dpi=200)
+    fig.savefig(os.path.join(a.resdir, f"slowdown{a.tag}.png"), dpi=200)
 
     # --- figure 2: code size (.text) ---
     sizes = {}
@@ -82,22 +90,32 @@ def main():
                 if r["text"]:
                     sizes[r["variant"]] = int(r["text"])
     if sizes and "base" in sizes:
-        fig, ax = plt.subplots(figsize=(5, 4))
-        vs = [v for v in variants if v in sizes and v != "base"]
-        delta = [(sizes[v] - sizes["base"]) / 1024 for v in vs]
+        # clangcfi is compared with ltobase (same -flto/-fvisibility=hidden
+        # build WITHOUT the check); everything else with base
+        ref = {v: ("ltobase" if v == "clangcfi" and "ltobase" in sizes
+                   else "base") for v in variants}
+        vs = [v for v in variants if v in sizes and v not in ("base", "ltobase")
+              and v not in set(a.exclude.split(",")) - {"ltobase"}]
+        fig, ax = plt.subplots(figsize=(5.5, 4))
+        delta = [(sizes[v] - sizes[ref[v]]) / 1024 for v in vs]
         bars = ax.bar(vs, delta, color=[COLORS.get(v) for v in vs])
         for b, d, v in zip(bars, delta, vs):
-            pct = 100.0 * (sizes[v] - sizes["base"]) / sizes["base"]
-            ax.annotate(f"+{d:.1f} KiB ({pct:.1f}%)",
+            pct = 100.0 * (sizes[v] - sizes[ref[v]]) / sizes[ref[v]]
+            star = "*" if ref[v] != "base" else ""
+            ax.annotate(f"{d:+.1f} KiB ({pct:+.1f}%){star}",
                         (b.get_x() + b.get_width() / 2, d), ha="center",
                         va="bottom", fontsize=8, xytext=(0, 4),
                         textcoords="offset points")
-        ax.set_ylabel(".text size increase over baseline [KiB]")
+        ax.margins(y=0.15)
+        ax.set_ylabel(".text size increase [KiB]")
         ax.set_title("Code size overhead" + (f" ({a.title})" if a.title else ""))
-        fig.tight_layout()
-        fig.savefig(os.path.join(a.resdir, "codesize.png"), dpi=200)
+        if any(ref[v] != "base" for v in vs):
+            fig.text(0.01, 0.01, "* vs ltobase (same LTO build without the check); "
+                     "others vs base", fontsize=7)
+        fig.tight_layout(rect=(0, 0.03, 1, 1))
+        fig.savefig(os.path.join(a.resdir, f"codesize{a.tag}.png"), dpi=200)
 
-    print("wrote slowdown.png" + (" and codesize.png" if sizes else ""))
+    print(f"wrote slowdown{a.tag}.png" + (f" and codesize{a.tag}.png" if sizes else ""))
 
 
 if __name__ == "__main__":

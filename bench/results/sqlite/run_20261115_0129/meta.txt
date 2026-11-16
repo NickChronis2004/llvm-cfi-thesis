@@ -1,0 +1,9 @@
+program:    sqlite
+date:       2026-11-15T01:39:37+00:00
+cpu pinned: 2
+reps:       15
+git commit: 3151c6ea925323cc71046d5616d208740ea38384
+Linux baa8589e4c9d 6.8.0-139-generic #139-Ubuntu SMP PREEMPT_DYNAMIC Sat Aug  1 03:52:05 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+CPU(s):                                  16
+Model name:                              12th Gen Intel(R) Core(TM) i5-12500H
+CPU(s) scaling MHz:                      29%
